@@ -1,0 +1,27 @@
+[
+    {
+      "name": "Lauk Utama",
+      "description": "Menu utama khas Padang seperti rendang, ayam pop, gulai, dsb.",
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Sayur",
+      "description": "Aneka sayuran seperti daun singkong, gulai cubadak, dll.",
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Sambal",
+      "description": "Sambal khas Padang pedas menggigit.",
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Minuman",
+      "description": "Aneka minuman segar dan tradisional.",
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    }
+  ]
+  

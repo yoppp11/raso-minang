@@ -1,0 +1,80 @@
+[
+    {
+      "name": "Rendang Daging",
+      "description": "Daging sapi dimasak dengan santan dan rempah khas Minang.",
+      "price": 20000,
+      "image_url": "https://example.com/images/rendang.jpg",
+      "is_avaible": true,
+      "category_id": 1,
+      "is_spicy": true,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Ayam Pop",
+      "description": "Ayam rebus khas Padang, disajikan dengan sambal.",
+      "price": 18000,
+      "image_url": "https://example.com/images/ayam-pop.jpg",
+      "is_avaible": true,
+      "category_id": 1,
+      "is_spicy": false,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Gulai Cubadak",
+      "description": "Nangka muda dimasak gulai santan khas Padang.",
+      "price": 8000,
+      "image_url": "https://example.com/images/gulai-cubadak.jpg",
+      "is_avaible": true,
+      "category_id": 2,
+      "is_spicy": true,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Daun Singkong Rebus",
+      "description": "Sayur pelengkap khas Padang, sehat dan segar.",
+      "price": 5000,
+      "image_url": "https://example.com/images/daun-singkong.jpg",
+      "is_avaible": true,
+      "category_id": 2,
+      "is_spicy": false,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Sambal Ijo",
+      "description": "Sambal cabai hijau khas Minang.",
+      "price": 3000,
+      "image_url": "https://example.com/images/sambal-ijo.jpg",
+      "is_avaible": true,
+      "category_id": 3,
+      "is_spicy": true,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Es Teh Manis",
+      "description": "Teh manis dingin untuk menyegarkan setelah makan.",
+      "price": 5000,
+      "image_url": "https://example.com/images/es-teh.jpg",
+      "is_avaible": true,
+      "category_id": 4,
+      "is_spicy": false,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+      "name": "Es Jeruk",
+      "description": "Minuman jeruk segar, cocok untuk cuaca panas.",
+      "price": 6000,
+      "image_url": "https://example.com/images/es-jeruk.jpg",
+      "is_avaible": true,
+      "category_id": 4,
+      "is_spicy": false,
+      "createdAt": "2025-04-29T00:00:00Z",
+      "updatedAt": "2025-04-29T00:00:00Z"
+    }
+  ]
+  
