@@ -87,8 +87,58 @@ class CartController {
 
     static async routeRemoveCart(req, res, next){
         try {
+            const {cartId} = req.params
+
+            const cart = await Cart.findOne({
+                where: {
+                    id: +cartId
+                }
+            })
             
-            
+            if(!cart) throw { name: 'NotFound', message: 'Cart not found' }
+
+            await Cart_Item.destroy({
+                where: {
+                    cart_id: +cartId
+                }
+            })
+            await Cart.destroy({
+                where: {
+                    id: +cartId
+                }
+            })
+
+            return res.status(200).send({
+                message: 'Succes deleted cart'
+            })
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeIncrementStock(req, res, next){
+        try {
+            const {cartId} = req.params
+
+            const cart = await Cart.findOne({
+                where: {
+                    id: +cartId
+                }
+            })
+
+            if(!cart) throw { name: 'NotFound', message: 'Cart not found' }
+            await Cart_Item.increment('quantity' ,{
+                by: 1,
+                where: {
+                    cart_id: +cartId
+                }
+            })
+
+            return res.status(200).send({
+                message: 'Success added quantity'
+            })
+
         } catch (error) {
             console.log(error);
             next(error)

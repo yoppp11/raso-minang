@@ -16,6 +16,19 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static async get(){
+      await sequelize
+
+      await Cart.create({
+
+      }, {
+        transaction
+      })
+
+      await Cart.destroy({
+        where: {},
+        transaction
+      })
+
       await Cart.findAll({
         where: {
           user_id
@@ -28,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
           },
           include: {
           }
-        }
+        },
+        transaction: t
       })
     }
   }

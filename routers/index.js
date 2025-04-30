@@ -2,6 +2,7 @@ const express = require('express')
 const { userRouter } = require('./userRouters')
 const { cartRouter } = require('./cartRouter')
 const { authMiddleware } = require('../middlewares/authMiddleware')
+const { orderRouter } = require('./orderRouter')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -14,6 +15,7 @@ router.use('/', userRouter)
 router.use(authMiddleware)
 
 router.use('/', cartRouter)
+router.use('/', orderRouter)
 
 
 module.exports = {

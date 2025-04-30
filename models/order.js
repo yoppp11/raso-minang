@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Order.belongsTo(models.User, {foreignKey: 'user_id'})
       Order.hasMany(models.Order_Item, {foreignKey: 'order_id'})
-      Order.belongsTo(models.Delivery_Tracking, {foreignKey: 'order_id'})
+      Order.hasMany(models.Delivery_Tracking, {foreignKey: 'order_id'})
     }
   }
   Order.init({
@@ -24,12 +24,21 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    order_status: DataTypes.STRING,
-    order_type: DataTypes.STRING,
+    order_status: {
+      type: DataTypes.STRING,
+      defaultValue: 'pending'
+    },
+    order_type: {
+      type: DataTypes.STRING,
+      defaultValue: 'online'
+    },
     total_amount: DataTypes.INTEGER,
     delivery_address: DataTypes.STRING,
     payment_method: DataTypes.STRING,
-    payment_status: DataTypes.STRING,
+    payment_status: {
+      type: DataTypes.STRING,
+      defaultValue: 'unpaid'
+    },
     notes: DataTypes.STRING
   }, {
     sequelize,
