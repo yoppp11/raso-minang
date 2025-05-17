@@ -3,6 +3,7 @@ const { userRouter } = require('./userRouters')
 const { cartRouter } = require('./cartRouter')
 const { authMiddleware } = require('../middlewares/authMiddleware')
 const { orderRouter } = require('./orderRouter')
+const { menuRouter } = require('./menuRouter')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -16,6 +17,7 @@ router.use(authMiddleware)
 
 router.use('/', cartRouter)
 router.use('/', orderRouter)
+router.use('/', menuRouter)
 
 
 module.exports = {
