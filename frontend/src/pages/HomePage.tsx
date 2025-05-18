@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { Category, MenuItem } from './types'
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import CategoryFilter from './components/CategoryFilter';
-import MenuCard from './components/MenuCard';
 import { Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import CategoryFilter from '../components/CategoryFilter';
+import HeroSection from '../components/HeroSection';
+import MenuCard from '../components/MenuCard';
+import Navbar from '../components/Navbar';
+import { Category, MenuItem } from '../types';
+import '../App.css';
 
 const menuItems: MenuItem[] = [
   {
@@ -114,7 +114,7 @@ const categories: Category[] = [
   { id: 5, name: "Sambal" }
 ];
 
-function App() {
+function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>(menuItems)
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
@@ -301,4 +301,4 @@ function App() {
   )
 }
 
-export default App
+export default HomePage

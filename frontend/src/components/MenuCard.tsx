@@ -3,13 +3,15 @@ import { MenuItem } from "../types";
 import { Heart, Minus, Plus } from "lucide-react";
 import SpicyBadge from "./SpicyBadge";
 import PriceFormatter from "./PriceFormatter";
+import { useNavigate } from "react-router";
 
 export default function MenuCard({ item }: { item: MenuItem }){
     const [isInCart, setIsInCart] = useState(false)
     const [isFavorite, setIsFavorite] = useState(false)
+    const navigate = useNavigate()
 
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg" onClick={()=>{ navigate('/'+ item.id) }}>
             <div className="relative">
                 <img 
                     src="" 
