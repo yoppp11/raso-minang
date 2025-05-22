@@ -6,6 +6,8 @@ import MenuCard from '../components/MenuCard';
 import Navbar from '../components/Navbar';
 import { Category, MenuItem } from '../types';
 import '../App.css';
+import Swal from 'sweetalert2';
+import { http } from '../helpers/axios';
 
 const menuItems: MenuItem[] = [
   {
@@ -118,6 +120,25 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>(menuItems)
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
+
+  const fetchData = async ()=> {
+    try {
+        const response = await http({
+            method: 'get',
+            url: '/menu'
+        })
+        
+    } catch (error) {
+        console.log(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Terjadi kesalahan saat mengambil data!',
+            confirmButtonText: 'Tutup'
+        })
+        
+    }
+  }
 
   useEffect(()=> {
 

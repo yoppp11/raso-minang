@@ -1,9 +1,10 @@
 import { MenuIcon, Search, ShoppingBag, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Navbar(){
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate()
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -37,7 +38,7 @@ export default function Navbar(){
                             <Search className="absolute left-3 top-2.5 text-gray-400" />
                         </div>
 
-                        <button className="relative">
+                        <button className="relative" onClick={()=> { navigate('/cart') }}>
                             <ShoppingBag className="text-gray-700" />
                             <span className="absolute -top-2 -right-2 bg-green-600 text-white rounded-ful w-5 h-5 flex items-center justify-center text-xs font-bold">
                                 2

@@ -7,8 +7,8 @@ export interface MenuItem {
     is_avaible: boolean
     category_id: number
     is_spicy: boolean
-    createdAt: string
-    updatedAt: string
+    createdAt?: string
+    updatedAt?: string
 }
 
 export interface Category {

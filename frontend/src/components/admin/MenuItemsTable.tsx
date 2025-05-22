@@ -1,0 +1,164 @@
+import { useState } from "react"
+import Card from "./Card"
+import Button from "./Button"
+import { Edit, Eye, Plus, Search, Trash2 } from "lucide-react"
+import Input from "./Input"
+
+export default function MenuItemsTable() {
+    const [searchTerm, setSearchTerm] = useState("")
+    const [filterCategory, setFilterCategory] = useState("all")
+    
+    const menuItems = [
+      {
+        id: 1,
+        name: "Rendang Daging",
+        description: "Rendang daging sapi khas Minang yang empuk dan gurih",
+        price: 25000,
+        category: "Lauk Pauk",
+        is_available: true,
+        is_spicy: true,
+        image_url: "/api/placeholder/80/80"
+      },
+      {
+        id: 2,
+        name: "Ayam Pop",
+        description: "Ayam goreng khas Padang yang renyah dan lezat",
+        price: 20000,
+        category: "Lauk Pauk", 
+        is_available: true,
+        is_spicy: false,
+        image_url: "/api/placeholder/80/80"
+      },
+      {
+        id: 3,
+        name: "Gulai Kikil",
+        description: "Gulai kikil dengan kuah santan yang kental",
+        price: 18000,
+        category: "Gulai",
+        is_available: false,
+        is_spicy: true,
+        image_url: "/api/placeholder/80/80"
+      },
+      {
+        id: 4,
+        name: "Sambal Balado",
+        description: "Sambal balado pedas dengan cabai merah segar",
+        price: 8000,
+        category: "Sambal",
+        is_available: true,
+        is_spicy: true,
+        image_url: "/api/placeholder/80/80"
+      }
+    ]
+    
+    const filteredItems = menuItems.filter(item => {
+      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesCategory = filterCategory === "all" || item.category === filterCategory
+      return matchesSearch && matchesCategory
+    })
+    
+    return (
+      <Card className="overflow-hidden">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 className="text-xl font-semibold text-gray-900">Menu Items</h2>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Tambah Menu
+            </Button>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <div className="flex-1">
+              <Input
+                icon={Search}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Cari menu..."
+              />
+            </div>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            >
+              <option value="all">Semua Kategori</option>
+              <option value="Lauk Pauk">Lauk Pauk</option>
+              <option value="Gulai">Gulai</option>
+              <option value="Sambal">Sambal</option>
+            </select>
+          </div>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Menu</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {filteredItems.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <img 
+                        className="h-12 w-12 rounded-lg object-cover" 
+                        src={item.image_url} 
+                        alt={item.name}
+                      />
+                      <div className="ml-4">
+                        <div className="text-sm font-medium text-gray-900 flex items-center">
+                          {item.name}
+                          {item.is_spicy && (
+                            <span className="ml-2 text-red-500 text-xs">🌶️ Pedas</span>
+                          )}
+                        </div>
+                        <div className="text-sm text-gray-500 truncate max-w-xs">
+                          {item.description}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+                      {item.category}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    Rp {item.price.toLocaleString('id-ID')}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      item.is_available 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-red-100 text-red-800'
+                    }`}>
+                      {item.is_available ? 'Tersedia' : 'Habis'}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="sm">
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Trash2 className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    )
+  }
