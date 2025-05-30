@@ -1,9 +1,9 @@
+import { ArrowLeft, ChevronDown, Heart, Minus, Plus, Star } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeft, ChevronDown, Heart, Minus, Plus, Star } from "lucide-react";
-import { MenuItem } from "../types";
-import SpicyBadge from "../components/SpicyBadge";
-import PriceFormatter from "../components/PriceFormatter";
+import PriceFormatter from "../../components/customer/PriceFormatter";
+import SpicyBadge from "../../components/customer/SpicyBadge";
+import { MenuItem } from "../../types";
 
 // Mock data to simulate fetching a menu item by ID
 const mockMenu: MenuItem = {
@@ -77,18 +77,15 @@ export default function DetailPage() {
   };
 
   const handleAddToCart = () => {
-    // Implement cart functionality here
     console.log(`Added ${quantity} ${menuItem.name} to cart`);
-    // Reset quantity or show confirmation
   };
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Top navigation */}
       <div className="bg-white shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center text-gray-700 hover:text-green-600">
+            <Link to="/home" className="flex items-center text-gray-700 hover:text-green-600">
               <ArrowLeft className="mr-2" size={20} />
               <span className="font-medium">Kembali ke Menu</span>
             </Link>
@@ -103,7 +100,6 @@ export default function DetailPage() {
         </div>
       </div>
 
-      {/* Hero image and basic info */}
       <div className="relative">
         <div className="h-64 md:h-96 w-full bg-gray-200 overflow-hidden">
           <img 
@@ -134,7 +130,6 @@ export default function DetailPage() {
             
             <p className="text-gray-600 mb-6">{menuItem.description}</p>
             
-            {/* Quantity selector and add to cart */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4 bg-gray-100 px-4 py-2 rounded-full">
                 <button 
@@ -167,10 +162,8 @@ export default function DetailPage() {
         </div>
       </div>
 
-      {/* Additional information */}
       <div className="container mx-auto px-4 mt-6 mb-12">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          {/* Nutrition Facts */}
           <div className="border-b border-gray-200">
             <button 
               onClick={() => setShowNutrition(!showNutrition)}
@@ -202,7 +195,6 @@ export default function DetailPage() {
             )}
           </div>
           
-          {/* Reviews */}
           <div>
             <button 
               onClick={() => setShowReviews(!showReviews)}
@@ -214,7 +206,6 @@ export default function DetailPage() {
             
             {showReviews && (
               <div className="p-4 pt-0 space-y-4">
-                {/* Review item */}
                 <div className="border-b border-gray-100 pb-4">
                   <div className="flex items-center mb-2">
                     <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-2">
@@ -233,7 +224,6 @@ export default function DetailPage() {
                   <p className="text-gray-600 text-sm">Rendangnya luar biasa enak! Dagingnya empuk dan bumbunya meresap. Tidak terlalu pedas jadi cocok untuk semua orang.</p>
                 </div>
                 
-                {/* Review item */}
                 <div className="border-b border-gray-100 pb-4">
                   <div className="flex items-center mb-2">
                     <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mr-2">
@@ -264,7 +254,6 @@ export default function DetailPage() {
         </div>
       </div>
 
-      {/* Recommended dishes */}
       <div className="container mx-auto px-4 mb-12">
         <h2 className="text-xl font-bold text-gray-800 mb-4">Rekomendasi Menu Lainnya</h2>
         

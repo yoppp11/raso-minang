@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import { Category, MenuItem } from './types'
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import CategoryFilter from './components/CategoryFilter';
-import MenuCard from './components/MenuCard';
 import { Star } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import './App.css';
+import CategoryFilter from './components/customer/CategoryFilter';
+import HeroSection from './components/customer/HeroSection';
+import MenuCard from './components/customer/MenuCard';
+import Navbar from './components/customer/Navbar';
+import { Category, MenuItem } from './types';
 
 const menuItems: MenuItem[] = [
   {

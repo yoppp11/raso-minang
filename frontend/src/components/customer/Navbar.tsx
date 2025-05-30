@@ -24,7 +24,7 @@ export default function Navbar(){
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Beranda</Link>
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Menu</Link>
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Promo</Link>
-                        <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Tentang Kami</Link>
+                        <Link to={'/about-us'} className="text-gray-700 hover:text-green-600 font-medium">Tentang Kami</Link>
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Kontak</Link>
                     </div>
 
@@ -40,9 +40,9 @@ export default function Navbar(){
 
                         <button className="relative" onClick={()=> { navigate('/cart') }}>
                             <ShoppingBag className="text-gray-700" />
-                            <span className="absolute -top-2 -right-2 bg-green-600 text-white rounded-ful w-5 h-5 flex items-center justify-center text-xs font-bold">
+                            {/* <span className="absolute -top-2 -right-2 bg-green-600 text-white rounded-ful w-5 h-5 flex items-center justify-center text-xs font-bold">
                                 2
-                            </span>
+                            </span> */}
                         </button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ export default function Navbar(){
                             Promo
                         </Link>
                         <Link
-                            to={'/'} 
+                            to={'/about-us'} 
                             className="text-gray-700 hover:text-green-600 font-medium text-xl"
                             onClick={() => setIsMenuOpen(false)}
                         >

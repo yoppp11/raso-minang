@@ -2,6 +2,7 @@ import { ReactNode } from "react"
 
 const Button = ({ 
     children, 
+    type = "button",
     variant = "primary", 
     size = "md", 
     onClick, 
@@ -10,6 +11,7 @@ const Button = ({
     ...props 
   }: {
     children: ReactNode,
+    type?: "button" | "submit" | "reset",
     variant?: "primary" | "secondary" | "danger" | "ghost",
     size?: "sm" | "md" | "lg",
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
@@ -36,6 +38,7 @@ const Button = ({
         className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
         onClick={onClick}
         disabled={disabled}
+        type={type}
         {...props}
       >
         {children}

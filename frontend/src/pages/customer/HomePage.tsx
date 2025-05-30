@@ -1,13 +1,13 @@
 import { Star } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import CategoryFilter from '../components/CategoryFilter';
-import HeroSection from '../components/HeroSection';
-import MenuCard from '../components/MenuCard';
-import Navbar from '../components/Navbar';
-import { Category, MenuItem } from '../types';
-import '../App.css';
 import Swal from 'sweetalert2';
-import { http } from '../helpers/axios';
+import CategoryFilter from '../../components/customer/CategoryFilter';
+import HeroSection from '../../components/customer/HeroSection';
+import MenuCard from '../../components/customer/MenuCard';
+import Navbar from '../../components/customer/Navbar';
+import { http } from '../../helpers/axios';
+import { Category, MenuItem } from '../../types';
+import '../../App.css';
 
 const menuItems: MenuItem[] = [
   {

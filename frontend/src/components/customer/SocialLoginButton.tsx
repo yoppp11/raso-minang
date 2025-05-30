@@ -24,7 +24,6 @@ const SocialLoginButton: React.FC<SocialLoginButtonProps> = ({ provider }) => {
     }
     
     const handleClick = () => {
-        // Here you would implement the actual social login functionality
         console.log(`Login with ${provider}`)
     }
     

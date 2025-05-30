@@ -18,13 +18,64 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Menu_Item.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.INTEGER,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Name is required'
+        },
+        notNull: {
+          msg: 'Name is required'
+        },
+        len: [1, 100]
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Description is required'
+        },
+        notNull: {
+          msg: 'Description is required'
+        },
+        len: [1, 500]
+      }
+    },
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Price is required'
+        },
+        notNull: {
+          msg: 'Price is required'
+        },
+        isInt: {
+          msg: 'Price must be an integer'
+        },
+        min: {
+          args: [0],
+          msg: 'Price must be greater than or equal to 0'
+        }
+      }
+    },
     image_url: DataTypes.STRING,
     is_avaible: DataTypes.BOOLEAN,
     category_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Category is required'
+        },
+        notNull: {
+          msg: 'Category is required'
+        }
+      },
       references: {
         model: 'Categories',
         key: 'id'

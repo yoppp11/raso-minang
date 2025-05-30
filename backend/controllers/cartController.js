@@ -144,6 +144,49 @@ class CartController {
             next(error)
         }
     }
+
+    static async routeDecrementStock(req, res, next){
+        try {
+            const { cartId } = req.params
+
+            const cart = await Cart.findOne({
+                where: {
+                    id: +cartId
+                }
+            })
+
+            if(!cart) throw { name: 'NotFound', message: 'Cart not found' }
+            const cartItem = await Cart_Item.findOne({
+                where: {
+                    cart_id: +cartId
+                }
+            })
+            if(cartItem.quantity <= 1) {
+                await Cart_Item.destroy({
+                    where: {
+                        cart_id: +cartId
+                    }
+                })
+                return res.status(200).send({
+                    message: 'Success removed item from cart'
+                })
+            }
+            await Cart_Item.decrement('quantity', {
+                by: 1,
+                where: {
+                    cart_id: +cartId
+                }
+            })
+            return res.status(200).send({
+                message: 'Success decremented quantity'
+            })
+
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
 }
 
 module.exports = {

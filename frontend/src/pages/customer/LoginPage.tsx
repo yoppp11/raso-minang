@@ -1,8 +1,9 @@
 import { AlertCircle, ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
-import '../App.css'
-import { http } from "../helpers/axios"
+import { http } from "../../helpers/axios"
+import '../../App.css'
+import Swal from "sweetalert2"
 
 export default function LoginPage(){
     const [email, setEmail] = useState('')
@@ -27,8 +28,20 @@ export default function LoginPage(){
                 }
             })
 
+            if(response.data.user.role !== 'user'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Akses Ditolak',
+                    text: 'Hanya user yang dapat mengakses halaman ini.',
+                }).then(() => {
+                    navigate('/login')
+                })
+            }
             console.log(response.data);
             localStorage.setItem('access_token', response.data.access_token)
+            navigate('/home')
+
+            
             
 
             // if(response.status === 200){

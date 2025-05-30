@@ -1,59 +1,48 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Card from "./Card"
 import Button from "./Button"
 import { Edit, Eye, Plus, Search, Trash2 } from "lucide-react"
 import Input from "./Input"
+import Swal from "sweetalert2"
+import { http } from "../../helpers/axios"
+import { MenuItem } from "../../types"
 
 export default function MenuItemsTable() {
     const [searchTerm, setSearchTerm] = useState("")
     const [filterCategory, setFilterCategory] = useState("all")
-    
-    const menuItems = [
-      {
-        id: 1,
-        name: "Rendang Daging",
-        description: "Rendang daging sapi khas Minang yang empuk dan gurih",
-        price: 25000,
-        category: "Lauk Pauk",
-        is_available: true,
-        is_spicy: true,
-        image_url: "/api/placeholder/80/80"
-      },
-      {
-        id: 2,
-        name: "Ayam Pop",
-        description: "Ayam goreng khas Padang yang renyah dan lezat",
-        price: 20000,
-        category: "Lauk Pauk", 
-        is_available: true,
-        is_spicy: false,
-        image_url: "/api/placeholder/80/80"
-      },
-      {
-        id: 3,
-        name: "Gulai Kikil",
-        description: "Gulai kikil dengan kuah santan yang kental",
-        price: 18000,
-        category: "Gulai",
-        is_available: false,
-        is_spicy: true,
-        image_url: "/api/placeholder/80/80"
-      },
-      {
-        id: 4,
-        name: "Sambal Balado",
-        description: "Sambal balado pedas dengan cabai merah segar",
-        price: 8000,
-        category: "Sambal",
-        is_available: true,
-        is_spicy: true,
-        image_url: "/api/placeholder/80/80"
+    const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+
+    const fetchData = async () => {
+      try {
+        const response = await http({
+          method: 'GET',
+          url: '/menus',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+
+        console.log(response.data.data);
+        setMenuItems(response.data.data)
+        
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Terjadi Kesalahan',
+          text: 'Gagal memuat data menu. Silakan coba lagi.',
+        })
+        
       }
-    ]
+    }
+
+    useEffect(() => {
+      fetchData()
+    }, [])
     
     const filteredItems = menuItems.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = filterCategory === "all" || item.category === filterCategory
+      const matchesCategory = filterCategory === "all" || item.Category.name === filterCategory
       return matchesSearch && matchesCategory
     })
     
@@ -126,7 +115,7 @@ export default function MenuItemsTable() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                      {item.category}
+                      {item.Category.name}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -134,11 +123,11 @@ export default function MenuItemsTable() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      item.is_available 
+                      item.is_avaible 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-red-100 text-red-800'
                     }`}>
-                      {item.is_available ? 'Tersedia' : 'Habis'}
+                      {item.is_avaible ? 'Tersedia' : 'Habis'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

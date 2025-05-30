@@ -1,11 +1,16 @@
+
 const { MenuController } = require("../controllers/menuControllers")
 
 const express = require('express')
+const multer  = require('multer')
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 const menuRouter = express.Router()
 
 
-menuRouter.get('/menu', MenuController.routeGetMenu)
-menuRouter.get('/menu/:id', MenuController.routeGetMenuById)
+menuRouter.get('/menus', MenuController.routeGetMenu)
+menuRouter.post('/menus', upload.single('image'), MenuController.routeCreateMenu)
+menuRouter.get('/menus/:id', MenuController.routeGetMenuById)
 
 
 module.exports = {

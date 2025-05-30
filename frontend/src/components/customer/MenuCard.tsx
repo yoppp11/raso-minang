@@ -1,14 +1,47 @@
-import { useState } from "react";
-import { MenuItem } from "../types";
 import { Heart, Minus, Plus } from "lucide-react";
-import SpicyBadge from "./SpicyBadge";
-import PriceFormatter from "./PriceFormatter";
+import { useState } from "react";
 import { useNavigate } from "react-router";
+import { MenuItem } from "../../types";
+import PriceFormatter from "./PriceFormatter";
+import SpicyBadge from "./SpicyBadge";
+import { http } from "../../helpers/axios";
+import Swal from "sweetalert2";
 
 export default function MenuCard({ item }: { item: MenuItem }){
-    const [isInCart, setIsInCart] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [isFavorite, setIsFavorite] = useState(false)
     const navigate = useNavigate()
+
+    const handleClickAddCart = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        e.stopPropagation()
+        try {
+            setIsLoading(true)
+
+            const response = await http({
+                method: 'post',
+                url: '/carts',
+                data: {
+                    menu_item_id: item.id,
+                    quantity: 1,
+                },
+                headers: {
+                    Authorization : `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Menu berhasil ditambahkan ke keranjang',
+                    confirmButtonText: 'OK'
+                })
+        } catch (error) {
+            console.log(error);
+            
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg" onClick={()=>{ navigate('/'+ item.id) }}>
@@ -43,25 +76,13 @@ export default function MenuCard({ item }: { item: MenuItem }){
                     <PriceFormatter price={item.price} />
                     
                     {item.is_avaible ? (
-                        isInCart ? (
-                            <div className="flex items-center space-x-2">
-                                <button className="bg-green-50 text-green-600 p-1 rounded-full">
-                                    <Minus size={16} />
-                                </button>
-                                <span className="font-medium text-gray-800">1</span>
-                                <button className="bg-green-50 text-green-600 p-1 rounded-full">
-                                    <Plus size={16} />
-                                </button>
-                            </div>
-                        ) : (
                             <button 
-                                onClick={() => setIsInCart(true)}
+                                onClick={handleClickAddCart}
                                 className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center space-x-1 hover:bg-green-700"
                             >
                                 <Plus size={16} />
                                 <span>Keranjang</span>
                             </button>
-                        )
                     ): (
                         <button
                             disabled 

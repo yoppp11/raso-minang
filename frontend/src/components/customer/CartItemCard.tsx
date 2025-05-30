@@ -1,5 +1,5 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { CartItem } from "../types";
+import { CartItem } from "../../types";
 
 export default function CartItemCard({ 
     item,
@@ -19,8 +19,8 @@ export default function CartItemCard({
             <div className="w-full md:w-1/4 mb-4 md:mb-0">
                 <div className="h-40 md:h-32 w-full rounded-lg overflow-hidden">
                 <img 
-                    src={item.menuItem.image_url || "/api/placeholder/200/150"} 
-                    alt={item.menuItem.name} 
+                    src={item.Menu_Item.image_url || "/api/placeholder/200/150"} 
+                    alt={item.Menu_Item.name} 
                     className="w-full h-full object-cover"
                 />
                 </div>
@@ -29,7 +29,7 @@ export default function CartItemCard({
             <div className="w-full md:w-3/4 md:pl-4 flex flex-col justify-between">
                 <div>
                     <div className="flex justify-between items-start">
-                        <h3 className="font-bold text-lg">{item.menuItem.name}</h3>
+                        <h3 className="font-bold text-lg">{item.Menu_Item.name}</h3>
                         <button 
                         onClick={() => onRemove(item.id)}
                         className="text-red-500 hover:text-red-700"
@@ -38,9 +38,9 @@ export default function CartItemCard({
                         </button>
                     </div>
                 
-                    <p className="text-gray-600 text-sm mb-2">{item.menuItem.description}</p>
+                    <p className="text-gray-600 text-sm mb-2">{item.Menu_Item.description}</p>
                     
-                    {item.menuItem.is_spicy && (
+                    {item.Menu_Item.is_spicy && (
                         <span className="inline-block bg-red-100 text-red-600 text-xs px-2 py-1 rounded mb-2">
                         Pedas
                         </span>
@@ -80,10 +80,10 @@ export default function CartItemCard({
                     
                     <div className="text-right">
                         <p className="font-bold text-green-700 text-lg">
-                        Rp {(item.menuItem.price * item.quantity).toLocaleString('id-ID')}
+                        Rp {(item.Menu_Item.price * item.quantity).toLocaleString('id-ID')}
                         </p>
                         <p className="text-gray-500 text-sm">
-                        Rp {item.menuItem.price.toLocaleString('id-ID')} x {item.quantity}
+                        Rp {item.Menu_Item.price.toLocaleString('id-ID')} x {item.quantity}
                         </p>
                     </div>
                 </div>

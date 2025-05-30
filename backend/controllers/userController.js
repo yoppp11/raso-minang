@@ -41,9 +41,35 @@ class UserController {
             const isValid = comparePassword(password, userFound.password)
             if(!isValid) throw { name: 'BadRequest', message: 'Invalid email / password' }
 
-            const access_token = signToken({ id: userFound.id, email: userFound.email })
+            const access_token = signToken({ id: userFound.id, email: userFound.email, role: userFound.role })
 
-            return res.status(200).send({ access_token })
+            return res.status(200).send({ 
+                access_token,
+                user: {
+                    id: userFound.id,
+                    email: userFound.email,
+                    username: userFound.username,
+                    role: userFound.role,
+                }
+             })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeCheckLogin(req, res, next){
+        try {
+            const { id } = req.user
+
+            const response = await User.findOne({
+                where: {
+                    id
+                }
+            })
+
+            return res.status(200).send({ role: response.role })
 
         } catch (error) {
             console.log(error);

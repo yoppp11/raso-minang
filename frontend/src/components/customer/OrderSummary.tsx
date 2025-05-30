@@ -1,6 +1,6 @@
-import { Link } from "react-router";
-import { CartItem } from "../types";
 import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router";
+import { CartItem } from "../../types";
 
 export default function OrderSummary({ 
     items,
@@ -18,10 +18,10 @@ export default function OrderSummary({
             
             <div className="border-b pb-4 mb-4">
                 <div className="space-y-2">
-                {items.map(item => (
-                    <div key={item.id} className="flex justify-between text-sm">
-                    <span>{item.quantity}x {item.menuItem.name}</span>
-                    <span>Rp {(item.menuItem.price * item.quantity).toLocaleString('id-ID')}</span>
+                {items?.map(item => (
+                    <div key={item?.id} className="flex justify-between text-sm">
+                    <span>{item?.quantity}x {item?.Menu_Item.name}</span>
+                    <span>Rp {(item?.Menu_Item.price * item?.quantity).toLocaleString('id-ID')}</span>
                     </div>
                 ))}
                 </div>
@@ -30,7 +30,7 @@ export default function OrderSummary({
             <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal</span>
-                    <span>Rp {subtotal.toLocaleString('id-ID')}</span>
+                    <span>Rp {subtotal?.toLocaleString('id-ID')}</span>
                 </div>
 
                 <div className="flex justify-between">

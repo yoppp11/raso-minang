@@ -1,10 +1,10 @@
 import { AlertCircle, ArrowRight, Eye, EyeOff, Lock, Mail, Phone, User } from "lucide-react"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
-import '../App.css'
-import { http } from "../helpers/axios"
-import FormInput from "../components/FormInput"
-import SocialLoginButton from "../components/SocialLoginButton"
+import FormInput from "../../components/customer/FormInput"
+import SocialLoginButton from "../../components/customer/SocialLoginButton"
+import { http } from "../../helpers/axios"
+import '../../App.css'
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
