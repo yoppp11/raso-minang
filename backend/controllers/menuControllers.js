@@ -1,4 +1,16 @@
 const { Menu_Item, Category } = require("../models");
+const cloudinary = require('cloudinary')
+
+const API_KEY = process.env.KEY_CLOUDINARY
+const API_SECRET = process.env.SECRET_CLOUDINARY
+const CLOUD = process.env.CLOUD_CLOUDINARY
+
+cloudinary.config({ 
+    cloud_name: CLOUD, 
+    api_key: API_KEY, 
+    api_secret: API_SECRET 
+});
+
 
 class MenuController {
 
@@ -55,15 +67,42 @@ class MenuController {
 
     static async routeCreateMenu(req, res, next){
         try {
-            const file = req.file
-            const { name, description, price, categoryId, image, isAvaible, isSpicy } = req.body
+            const image = req.file
+            const { name, description, price, categoryId, isAvaible, isSpicy } = req.body
 
-            if(!file) throw {
+            if(!image) throw {
                 name: "BadRequest",
                 message: "Image is required"
             }
 
-            
+            const imageString = image.buffer.toString('base64')
+            const base64Image = `data:${image.mimetype};base64,${imageString}`
+
+            const imageUrl = await cloudinary.v2.uploader.upload(base64Image)
+
+            await Menu_Item.create({
+                name,
+                description,
+                price,
+                category_id: categoryId,
+                image_url: imageUrl.secure_url,
+                is_avaible: isAvaible === 'true',
+                is_spicy: isSpicy === 'true'
+            })
+
+            return res.status(201).send({
+                status: "success",
+                message: "Menu Created Successfully",
+                data: {
+                    name,
+                    description,
+                    price,
+                    categoryId,
+                    isAvaible,
+                    isSpicy,
+                    imageUrl: imageUrl.secure_url
+                }
+            })
             
         } catch (error) {
             console.log(error);
