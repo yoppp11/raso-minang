@@ -3,6 +3,8 @@ import { Eye, EyeOff, Lock, Mail, ChefHat } from 'lucide-react'
 import InputLogin from '../../components/admin/InputLogin'
 import Button from '../../components/admin/Button'
 import { http } from '../../helpers/axios'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router'
 
 // const Button = ({ 
 //   children, 
@@ -56,6 +58,7 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState<{[key: string]: string}>({})
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -99,8 +102,25 @@ export default function AdminLogin() {
     try {
       const response = await http({
         method: 'post',
-        
+        url: '/login',
+        data: {
+          email: formData.email,
+          password: formData.password
+        }
       })
+
+      if(response.data.user.role !== 'admin'){
+        Swal.fire({
+            icon: 'error',
+            title: 'Akses Ditolak',
+            text: 'Hanya admin yang dapat mengakses halaman ini.',
+        }).then(() => {
+            navigate('/admin/login')
+        })
+      }
+      console.log(response.data);
+      localStorage.setItem('access_token', response.data.access_token)
+      navigate('/admin/dashboard')
       
     } catch (error) {
       console.error('Login error:', error)

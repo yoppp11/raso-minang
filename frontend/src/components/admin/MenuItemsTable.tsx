@@ -6,11 +6,13 @@ import Input from "./Input"
 import Swal from "sweetalert2"
 import { http } from "../../helpers/axios"
 import { MenuItem } from "../../types"
+import { useNavigate } from "react-router"
 
 export default function MenuItemsTable() {
     const [searchTerm, setSearchTerm] = useState("")
     const [filterCategory, setFilterCategory] = useState("all")
     const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+    const navigate = useNavigate()
 
     const fetchData = async () => {
       try {
@@ -51,7 +53,7 @@ export default function MenuItemsTable() {
         <div className="p-6 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h2 className="text-xl font-semibold text-gray-900">Menu Items</h2>
-            <Button>
+            <Button onClick={()=> { navigate('/admin/add-menu') }}>
               <Plus className="h-4 w-4 mr-2" />
               Tambah Menu
             </Button>

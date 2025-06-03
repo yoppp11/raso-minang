@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react"
+
 export interface MenuItem {
     id: number
     name: string
@@ -27,17 +29,6 @@ export interface CartItem {
     quantity: number
     special_instructions: string
     Menu_Item: MenuItem
-}
-
-export interface InputProps {
-    type?: string
-    placeholder: string
-    value: string
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-    icon?: React.ComponentType<{ className?: string }>
-    error?: string
-    required?: boolean
-    className?: string
 }
 
 export interface ButtonProps {
@@ -95,4 +86,83 @@ export interface ButtonProps {
     onClick?: () => void;
     className?: string;
     disabled?: boolean;
+}
+
+export interface SelectOption {
+    value: number | undefined
+    label: string
+}
+
+export interface FormDataInput {
+    name: string
+    description: string
+    price: string
+    category: string
+    image: File | null
+    isSpicy: boolean
+    isAvailable: boolean
+}
+
+export interface FormErrors {
+    name?: string
+    description?: string
+    price?: string
+    category?: string
+    image?: string
+    isSpicy?: boolean
+    isAvailable?: boolean
+}
+
+export interface CardProps {
+    children: React.ReactNode
+    className?: string
+}
+
+  
+export interface InputProps {
+    label?: string
+    error?: string
+    required?: boolean
+    className?: string
+    value?: string
+    onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+    placeholder?: string
+    type?: string
+    min?: string
+    step?: string
+    icon?: React.ComponentType<any>;
+}
+  
+export interface TextAreaProps {
+    label?: string
+    error?: string
+    required?: boolean
+    className?: string
+    rows?: number
+    value?: string
+    onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void
+    placeholder?: string
+}
+  
+export interface SelectProps {
+    label?: string
+    error?: string
+    required?: boolean
+    options?: SelectOption[]
+    className?: string
+    value?: string
+    onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
+}
+  
+export interface ImageUploadProps {
+    onImageChange: (file: File | null) => void
+    preview: string | null
+    error?: string
+}
+  
+export interface ToggleProps {
+    label: string
+    checked: boolean
+    onChange: (checked: boolean) => void
+    description?: string
 }

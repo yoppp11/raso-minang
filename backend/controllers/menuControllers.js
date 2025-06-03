@@ -69,6 +69,10 @@ class MenuController {
         try {
             const image = req.file
             const { name, description, price, categoryId, isAvaible, isSpicy } = req.body
+            console.log(req.file);
+            console.log(req.body);
+            console.log(req.params);
+
 
             if(!image) throw {
                 name: "BadRequest",
@@ -107,6 +111,28 @@ class MenuController {
         } catch (error) {
             console.log(error);
             next(error)
+        }
+    }
+
+    static async routeGetCategories(req, res, next){
+        try {
+            const result = await Category.findAll({
+                order: [
+                    ['id', 'ASC']
+                ],
+                attributes: ['id', 'name']
+            })
+
+            return res.status(200).send({
+                status: "success",
+                message: "Get All Categories",
+                data: result
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+            
         }
     }
 }

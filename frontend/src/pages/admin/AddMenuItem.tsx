@@ -1,100 +1,11 @@
-import React, { useState, ChangeEvent, DragEvent, JSX } from 'react'
-import { ArrowLeft, Upload, X, Save, Eye, AlertCircle, LucideIcon } from 'lucide-react'
+import React, { useState, ChangeEvent, DragEvent, JSX, useEffect } from 'react'
+import { ArrowLeft, Upload, X, Save, AlertCircle } from 'lucide-react'
 import Button from '../../components/admin/Button'
-
-// Types
-interface SelectOption {
-  value: string
-  label: string
-}
-
-interface FormData {
-  name: string
-  description: string
-  price: string
-  category: string
-  image: File | null
-  isSpicy: boolean
-  isAvailable: boolean
-}
-
-interface FormErrors {
-  name?: string
-  description?: string
-  price?: string
-  category?: string
-  image?: string
-}
-
-// Component Props Interfaces
-interface CardProps {
-  children: React.ReactNode
-  className?: string
-}
-
-interface ButtonProps {
-  children: React.ReactNode
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
-  size?: 'sm' | 'md' | 'lg'
-  className?: string
-  disabled?: boolean
-  onClick?: () => void
-  type?: 'button' | 'submit' | 'reset'
-}
-
-interface InputProps {
-  label?: string
-  error?: string
-  required?: boolean
-  className?: string
-  value?: string
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-  placeholder?: string
-  type?: string
-  min?: string
-  step?: string
-}
-
-interface TextAreaProps {
-  label?: string
-  error?: string
-  required?: boolean
-  className?: string
-  rows?: number
-  value?: string
-  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void
-  placeholder?: string
-}
-
-interface SelectProps {
-  label?: string
-  error?: string
-  required?: boolean
-  options?: SelectOption[]
-  className?: string
-  value?: string
-  onChange?: (e: ChangeEvent<HTMLSelectElement>) => void
-}
-
-interface ImageUploadProps {
-  onImageChange: (file: File | null) => void
-  preview: string | null
-  error?: string
-}
-
-interface ToggleProps {
-  label: string
-  checked: boolean
-  onChange: (checked: boolean) => void
-  description?: string
-}
-
-// Reusable Components
-const Card: React.FC<CardProps> = ({ children, className = "" }) => (
-  <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
-    {children}
-  </div>
-)
+import { useNavigate } from 'react-router'
+import { http } from '../../helpers/axios'
+import { FormDataInput, FormErrors, ImageUploadProps, InputProps, SelectOption, SelectProps, TextAreaProps, ToggleProps } from '../../types'
+import Card from '../../components/admin/Card'
+import Swal from 'sweetalert2'
 
 const Input: React.FC<InputProps> = ({ 
   label, 
@@ -309,9 +220,8 @@ const Toggle: React.FC<ToggleProps> = ({ label, checked, onChange, description }
   </div>
 )
 
-// Main Component
 export default function AddMenuPage(): JSX.Element {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<FormDataInput>({
     name: '',
     description: '',
     price: '',
@@ -324,19 +234,20 @@ export default function AddMenuPage(): JSX.Element {
   const [errors, setErrors] = useState<FormErrors>({})
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [categories, setCategories] = useState<SelectOption[]>([])
+  const navigate = useNavigate()
 
-  const categories: SelectOption[] = [
-    { value: '', label: 'Pilih Kategori' },
-    { value: 'Lauk Pauk', label: 'Lauk Pauk' },
-    { value: 'Gulai', label: 'Gulai' },
-    { value: 'Sambal', label: 'Sambal' },
-    { value: 'Sayuran', label: 'Sayuran' },
-    { value: 'Minuman', label: 'Minuman' }
-  ]
+  // const categories: SelectOption[] = [
+  //   { value: 0, label: 'Pilih Kategori' },
+  //   { value: 1, label: 'Lauk Pauk' },
+  //   { value: 2, label: 'Gulai' },
+  //   { value: 3, label: 'Sambal' },
+  //   { value: 4, label: 'Sayuran' },
+  //   { value: 5, label: 'Minuman' }
+  // ]
 
-  const handleInputChange = (field: keyof FormData, value: string | boolean | File | null): void => {
+  const handleInputChange = (field: keyof FormDataInput, value: string | boolean | File | null): void => {
     setFormData(prev => ({ ...prev, [field]: value }))
-    // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
@@ -359,84 +270,87 @@ export default function AddMenuPage(): JSX.Element {
     }
   }
 
-  const validateForm = () => {
-    const newErrors = {}
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'Nama menu wajib diisi'
-    }
-    
-    if (!formData.description.trim()) {
-      newErrors.description = 'Deskripsi menu wajib diisi'
-    }
-    
-    if (!formData.price || parseFloat(formData.price) <= 0) {
-      newErrors.price = 'Harga harus lebih dari 0'
-    }
-    
-    if (!formData.category) {
-      newErrors.category = 'Kategori wajib dipilih'
-    }
-    
-    if (!formData.image) {
-      newErrors.image = 'Gambar menu wajib diupload'
-    }
-    
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
+    console.log('klik klik');
+    console.log(formData);
+    const reqBody = new FormData()
+    reqBody.append('name', formData.name)
+    reqBody.append('description', formData.description)
+    reqBody.append('price', formData.price)
+    reqBody.append('categoryId', formData.category)
+    reqBody.append('isSpicy', String(formData.isSpicy))
+    reqBody.append('isAvailable', String(formData.isAvailable))
+    if (formData.image) reqBody.append('image', formData.image)
+
+    // if (!validateForm()) {
+    //   return
+    // }
     
     setIsSubmitting(true)
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // Here you would normally make the API call
-      console.log('Form Data:', formData)
-      
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        description: '',
-        price: '',
-        category: '',
-        image: null,
-        isSpicy: false,
-        isAvailable: true
+      const response = await http({
+        method: 'post',
+        url: '/menus',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        },
+        data: reqBody
       })
-      setImagePreview(null)
+
+      console.log(response.data);
       
-      alert('Menu berhasil ditambahkan!')
+      Swal.fire({
+        title: 'Berhasil',
+        text: 'Menu baru berhasil ditambahkan',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        navigate('/admin/dashboard')
+      })
+
       
     } catch (error) {
       console.error('Error:', error)
-      alert('Terjadi kesalahan saat menambahkan menu')
+
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const handlePreview = () => {
-    console.log('Preview menu:', formData)
-    alert('Fitur preview akan ditampilkan di modal')
+  const fetchCategories = async () => {
+    try {
+      const response = await http({
+        method: 'get',
+        url: '/categories',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+        }
+      })
+      
+      setCategories(response.data.data.map((category: any) => ({
+        value: category.id,
+        label: category.name
+      })))
+
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
+
+  useEffect(()=> {
+    fetchCategories()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <Button variant="ghost" className="mr-4">
+              <Button variant="ghost" className="mr-4" onClick={()=> { navigate('/admin/dashboard') }}>
                 <ArrowLeft className="h-5 w-5 mr-2" />
                 Kembali
               </Button>
@@ -446,7 +360,7 @@ export default function AddMenuPage(): JSX.Element {
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
+            {/* <div className="flex items-center gap-3">
               <Button variant="secondary" onClick={handlePreview}>
                 <Eye className="h-4 w-4 mr-2" />
                 Preview
@@ -462,23 +376,21 @@ export default function AddMenuPage(): JSX.Element {
                     Menyimpan...
                   </div>
                 ) : (
-                  <>
+                  <>  
                     <Save className="h-4 w-4 mr-2" />
                     Simpan Menu
                   </>
                 )}
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="px-4 sm:px-6 lg:px-8 py-8">
         <div className="max-w-4xl mx-auto">
-          <div onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Left Column - Main Info */}
               <div className="lg:col-span-2 space-y-6">
                 <Card className="p-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-6">Informasi Menu</h2>
@@ -549,7 +461,6 @@ export default function AddMenuPage(): JSX.Element {
                 </Card>
               </div>
 
-              {/* Right Column - Image Upload */}
               <div className="space-y-6">
                 <Card className="p-6">
                   <ImageUpload
@@ -559,7 +470,6 @@ export default function AddMenuPage(): JSX.Element {
                   />
                 </Card>
 
-                {/* Preview Card */}
                 {(formData.name || formData.price || imagePreview) && (
                   <Card className="p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Preview Menu</h3>
@@ -606,9 +516,27 @@ export default function AddMenuPage(): JSX.Element {
                     </div>
                   </Card>
                 )}
+
+                <Button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="min-w-[280px]"
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Menyimpan...
+                    </div>
+                  ) : (
+                    <>  
+                      <Save className="h-4 w-4 mr-2" />
+                      Simpan Menu
+                    </>
+                  )}
+                </Button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@ const menuRouter = express.Router()
 
 menuRouter.get('/menus', MenuController.routeGetMenu)
 menuRouter.post('/menus', upload.single('image'), MenuController.routeCreateMenu)
+menuRouter.get('/categories',  MenuController.routeGetCategories)
 menuRouter.get('/menus/:id', MenuController.routeGetMenuById)
 
 
