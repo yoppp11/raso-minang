@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     total_amount: DataTypes.INTEGER,
     delivery_address: DataTypes.STRING,
-    payment_method: DataTypes.STRING,
     payment_status: {
       type: DataTypes.STRING,
       defaultValue: 'unpaid'

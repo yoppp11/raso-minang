@@ -23,7 +23,7 @@ export default function Navbar(){
                     <div className="hidden md:flex items-center space-x-8">
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Beranda</Link>
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Menu</Link>
-                        <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Promo</Link>
+                        <Link to={'/my-order'} className="text-gray-700 hover:text-green-600 font-medium">My Order</Link>
                         <Link to={'/about-us'} className="text-gray-700 hover:text-green-600 font-medium">Tentang Kami</Link>
                         <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium">Kontak</Link>
                     </div>
@@ -78,7 +78,7 @@ export default function Navbar(){
                             className="text-gray-700 hover:text-green-600 font-medium text-xl"
                             onClick={() => setIsMenuOpen(false)}
                         >
-                            Promo
+                            My Order
                         </Link>
                         <Link
                             to={'/about-us'} 

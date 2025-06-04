@@ -9,9 +9,9 @@ export interface MenuItem {
     is_avaible: boolean
     category_id: number
     is_spicy: boolean
-    Category: {
-        id: number
-        name: string
+    Category?: {
+        id?: number
+        name?: string
     }
     createdAt?: string
     updatedAt?: string
@@ -166,3 +166,63 @@ export interface ToggleProps {
     onChange: (checked: boolean) => void
     description?: string
 }
+
+declare global {
+    interface Window {
+      snap: {
+        pay: (
+          token: string,
+          callbacks: {
+            onSuccess?: (result: any) => void;
+            onPending?: (result: any) => void;
+            onError?: (result: any) => void;
+            onClose?: () => void;
+          }
+        ) => void;
+      };
+    }
+}
+
+export interface PaymentResponse {
+    token: string
+    order_id: string
+}
+
+export interface MenuItemOrder {
+    id: number;
+    name: string;
+    image_url: string;
+}
+  
+export interface OrderItem {
+    id: number;
+    order_id: number;
+    menu_item_id: number;
+    quantity: number;
+    unit_price: number;
+    subtotal: number;
+    special_instructions: string;
+    createdAt: string;
+    updatedAt: string;
+    menu_item: MenuItemOrder;
+  }
+
+export interface Order {
+    id: number;
+    user_id: number;
+    order_status: 'Menunggu' | 'Diproses' | 'Dimasak' | 'Siap' | 'Dalam Perjalanan' | 'Selesai' | 'Dibatalkan';
+    order_type: 'Delivery' | 'Pickup';
+    total_amount: number;
+    delivery_address: string;
+    payment_status: 'Menunggu' | 'Lunas' | 'Gagal' | 'Dibatalkan';
+    notes: string;
+    createdAt: string;
+    updatedAt: string;
+    order_items: OrderItem[];
+  }
+  
+export interface ApiResponse {
+    success: boolean;
+    data: Order[];
+    message?: string;
+  }

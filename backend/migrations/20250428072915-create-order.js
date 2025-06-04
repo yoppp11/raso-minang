@@ -28,9 +28,6 @@ module.exports = {
       delivery_address: {
         type: Sequelize.STRING
       },
-      payment_method: {
-        type: Sequelize.STRING
-      },
       payment_status: {
         type: Sequelize.STRING
       },

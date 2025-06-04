@@ -1,4 +1,7 @@
 const { Cart_Item, Cart, Menu_Item, Order, Order_Item, sequelize } = require('../models/')
+const midtransClient = require('midtrans-client');
+const { randomUUID } = require('crypto');
+const SECRET_KEY = process.env.SECRET_KEY   
 
 class OrderController {
 
@@ -99,7 +102,55 @@ class OrderController {
         } catch (error) {
             console.log(error);
         }
-    }     
+    }    
+    
+    static async routeGetPayment(req, res, next){
+        try {
+            let snap = new midtransClient.Snap({
+                // Set to true if you want Production Environment (accept real transaction).
+                isProduction : false,
+                serverKey : SECRET_KEY
+            });
+
+            const orderId = randomUUID()
+        
+            let parameter = {
+                "transaction_details": {
+                    "order_id": orderId,
+                    "gross_amount": req.params.total
+                },
+                "credit_card":{
+                    "secure" : true
+                },
+                "customer_details": {
+                    "first_name": req.user.name,
+                    "email": req.user.email
+                }
+            };
+
+            const transaction = await snap.createTransaction(parameter)
+            console.log(transaction);
+
+            await Order.create({
+                user_id: req.user.id,
+                total_amount: req.params.total,
+                delivery_address: '-',
+                payment_method: 'midtrans',
+                notes: '-',
+                token: transaction.token,
+                order_id: orderId
+            })
+            
+            return res.status(200).send({
+                token: transaction.token,
+                orderId
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
 
 }
 

@@ -22,6 +22,7 @@ async function authMiddleware(req, res, next){
         req.user = {
             id: isValidUser.id,
             email: isValidUser.email,
+            name: isValidUser.full_name,
             role: isValidUser.role
         }
 

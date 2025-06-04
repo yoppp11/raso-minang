@@ -12,7 +12,7 @@ const Button = ({
   }: {
     children: ReactNode,
     type?: "button" | "submit" | "reset",
-    variant?: "primary" | "secondary" | "danger" | "ghost",
+    variant?: "primary" | "secondary" | "danger" | "ghost" | "outline",
     size?: "sm" | "md" | "lg",
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
     disabled?: boolean,
@@ -24,7 +24,8 @@ const Button = ({
       primary: "bg-green-600 hover:bg-green-700 text-white focus:ring-green-500",
       secondary: "bg-gray-100 hover:bg-gray-200 text-gray-700 focus:ring-gray-500",
       danger: "bg-red-600 hover:bg-red-700 text-white focus:ring-red-500",
-      ghost: "hover:bg-gray-100 text-gray-700 focus:ring-gray-500"
+      ghost: "hover:bg-gray-100 text-gray-700 focus:ring-gray-500",
+      outline: "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-500"
     }
     
     const sizes = {

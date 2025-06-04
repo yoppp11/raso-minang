@@ -1,25 +1,24 @@
 import { ArrowLeft, ChevronDown, Heart, Minus, Plus, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import PriceFormatter from "../../components/customer/PriceFormatter";
 import SpicyBadge from "../../components/customer/SpicyBadge";
 import { MenuItem } from "../../types";
+import { http } from "../../helpers/axios";
 
-// Mock data to simulate fetching a menu item by ID
-const mockMenu: MenuItem = {
-  id: 1,
-  name: "Rendang Daging",
-  description: "Hidangan daging sapi yang dimasak dengan rempah-rempah khas Minang dan santan hingga kering. Dikenal dengan rasanya yang kaya dan teksturnya yang empuk.",
-  price: 45000,
-  image_url: "/api/placeholder/800/500",
-  is_avaible: true,
-  category_id: 1,
-  is_spicy: true,
-  createdAt: "2023-08-15T12:00:00Z",
-  updatedAt: "2023-08-15T12:00:00Z"
-};
+// const mockMenu: MenuItem = {
+//   id: 1,
+//   name: "Rendang Daging",
+//   description: "Hidangan daging sapi yang dimasak dengan rempah-rempah khas Minang dan santan hingga kering. Dikenal dengan rasanya yang kaya dan teksturnya yang empuk.",
+//   price: 45000,
+//   image_url: "/api/placeholder/800/500",
+//   is_avaible: true,
+//   category_id: 1,
+//   is_spicy: true,
+//   createdAt: "2023-08-15T12:00:00Z",
+//   updatedAt: "2023-08-15T12:00:00Z"
+// };
 
-// Additional mock data for recommended dishes
 const recommendedDishes = [
   {
     id: 2,
@@ -46,25 +45,13 @@ const recommendedDishes = [
 
 export default function DetailPage() {
   const { id } = useParams<{ id: string }>();
-  const [menuItem, setMenuItem] = useState<MenuItem>(mockMenu);
+  const [menuItem, setMenuItem] = useState<MenuItem>({} as MenuItem);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showNutrition, setShowNutrition] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
+  const [isLoading, setIsLoading] = useState(true)
 
-  // In a real app, you would fetch the menu item by id
-  // useEffect(() => {
-  //   async function fetchMenuItem() {
-  //     try {
-  //       const response = await fetch(`/api/menu/${id}`);
-  //       const data = await response.json();
-  //       setMenuItem(data);
-  //     } catch (error) {
-  //       console.error("Error fetching menu item:", error);
-  //     }
-  //   }
-  //   fetchMenuItem();
-  // }, [id]);
 
   const handleIncreaseQuantity = () => {
     setQuantity(prev => prev + 1);
@@ -77,15 +64,54 @@ export default function DetailPage() {
   };
 
   const handleAddToCart = () => {
-    console.log(`Added ${quantity} ${menuItem.name} to cart`);
+    console.log(`Added ${quantity} ${menuItem?.name} to cart`);
   };
+
+  const fetchData = async () => {
+    setIsLoading(true)
+
+    try {
+      const response = await http({
+        method: 'get',
+        url: '/menus/' + id,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+
+      console.log(response.data);
+      
+
+      setMenuItem(response.data.data)
+
+    } catch (error) {
+      console.log(error);
+      
+    } finally { 
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(()=> {
+    fetchData()
+  }, [])
+
+  if(isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+        </div>
+      </div>
+    );
+}
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="bg-white shadow-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/home" className="flex items-center text-gray-700 hover:text-green-600">
+            <Link to="/" className="flex items-center text-gray-700 hover:text-green-600">
               <ArrowLeft className="mr-2" size={20} />
               <span className="font-medium">Kembali ke Menu</span>
             </Link>
@@ -153,7 +179,7 @@ export default function DetailPage() {
                 className="bg-green-600 text-white px-6 py-3 rounded-full font-medium hover:bg-green-700 transition-colors"
                 disabled={!menuItem.is_avaible}
               >
-                {menuItem.is_avaible 
+                {menuItem?.is_avaible 
                   ? `Tambah ke Keranjang - ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(menuItem.price * quantity)}`
                   : "Tidak Tersedia"}
               </button>
