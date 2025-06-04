@@ -32,12 +32,6 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        
-        // Basic validation
-        if (formData.password !== formData.confirmPassword) {
-            setErrorMessage('Password dan konfirmasi password tidak cocok')
-            return
-        }
 
         setIsLoading(true)
         try {
@@ -45,9 +39,10 @@ export default function RegisterPage() {
                 method: 'POST',
                 url: '/register',
                 data: {
-                    fullName: formData.fullName,
+                    username: formData.username,
+                    full_name: formData.fullName,
                     email: formData.email,
-                    phone: formData.phone,
+                    phone_number: formData.phone,
                     password: formData.password
                 }
             })
