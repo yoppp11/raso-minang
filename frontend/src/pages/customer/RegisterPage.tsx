@@ -5,6 +5,7 @@ import FormInput from "../../components/customer/FormInput"
 import SocialLoginButton from "../../components/customer/SocialLoginButton"
 import { http } from "../../helpers/axios"
 import '../../App.css'
+import Swal from "sweetalert2"
 
 export default function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -49,6 +50,15 @@ export default function RegisterPage() {
                     phone: formData.phone,
                     password: formData.password
                 }
+            })
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Pendaftaran Berhasil',
+                text: 'Akun Anda telah berhasil dibuat. Silakan masuk.',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                navigate('/login')
             })
 
             console.log(response.data)
@@ -208,22 +218,6 @@ export default function RegisterPage() {
                             </button>
                         </div>
                     </form>
-                
-                    <div className="mt-6">
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">atau daftar dengan</span>
-                            </div>
-                        </div>
-                        
-                        <div className="mt-6 grid grid-cols-2 gap-3">
-                            <SocialLoginButton provider="google" />
-                            <SocialLoginButton provider="facebook" />
-                        </div>
-                    </div>
                 
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600">
