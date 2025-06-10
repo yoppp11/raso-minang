@@ -5,10 +5,9 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 class OrderController {
 
-    static async routeCreateOrder(req, res, next){
+    static async routeCreateToken(req, res, next){
         try {
             const userId = req.user.id
-            const {delivery_address, notes, payment_method} = req.body
 
             let detailCart = await Cart.findAll({
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -45,15 +44,58 @@ class OrderController {
 
             // cartWithSubTotal = cartWithSubTotal[0].concat(cartWithSubTotal[1])
 
-            const totalAmount = cartWithSubTotal.reduce((accumulate, item) => accumulate + item.subTotal, 0)
+            const totalAmount = cartWithSubTotal.reduce((accumulate, item) => accumulate + item.subTotal, 0) + 10000
+            
+            let snap = new midtransClient.Snap({
+                isProduction : false,
+                serverKey : SECRET_KEY
+            });
+
+            const paymentId = randomUUID()
+        
+            let parameter = {
+                "transaction_details": {
+                    "order_id": orderId,
+                    "gross_amount": totalAmount
+                },
+                "credit_card":{
+                    "secure" : true
+                },
+                "customer_details": {
+                    "first_name": req.user.name,
+                    "email": req.user.email
+                }
+            };
+
+            const transaction = await snap.createTransaction(parameter)
+
+            return res.status(201).send({
+                token: transaction.token,
+                paymentId,
+                totalAmount
+            })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }    
+    
+    static async routeCreateOrder(req, res, next){
+        try {
+            const { paymentId, deliveryAddress, notes, totalAmount } = req.body
+            const userId = req.user.id
 
             const result = await sequelize.transaction(async (t)=> {
                 try {
+
                     const order = await Order.create({
                         user_id: userId,
                         total_amount: totalAmount,
-                        delivery_address,
-                        payment_method,
+                        delivery_address: deliveryAddress,
+                        payment_id: paymentId,
+                        payment_status: 'paid',
+                        
                         notes
                     }, { transaction: t })
         
@@ -81,69 +123,25 @@ class OrderController {
                         },
                         transaction: t
                     })
-        
+
                     return {
-                        message: 'Success create order'
+                        message: 'Order created successfully',
+                        orderId: order.id,
+                        paymentId: order.payment_id
                     }
                     
                 } catch (error) {
                     console.log(error);
-                    return res.status(500).send({
-                        message: 'Transaction error'
-                    })
+                    next(error)
                 }
             })
 
+            console.log(result);
 
             return res.status(201).send({
-                message: 'Success create order'
-            })
-
-        } catch (error) {
-            console.log(error);
-        }
-    }    
-    
-    static async routeGetPayment(req, res, next){
-        try {
-            let snap = new midtransClient.Snap({
-                // Set to true if you want Production Environment (accept real transaction).
-                isProduction : false,
-                serverKey : SECRET_KEY
-            });
-
-            const orderId = randomUUID()
-        
-            let parameter = {
-                "transaction_details": {
-                    "order_id": orderId,
-                    "gross_amount": req.params.total
-                },
-                "credit_card":{
-                    "secure" : true
-                },
-                "customer_details": {
-                    "first_name": req.user.name,
-                    "email": req.user.email
-                }
-            };
-
-            const transaction = await snap.createTransaction(parameter)
-            console.log(transaction);
-
-            await Order.create({
-                user_id: req.user.id,
-                total_amount: req.params.total,
-                delivery_address: '-',
-                payment_method: 'midtrans',
-                notes: '-',
-                token: transaction.token,
-                order_id: orderId
-            })
-            
-            return res.status(200).send({
-                token: transaction.token,
-                orderId
+                message: result.message,
+                orderId: result.orderId,
+                paymentId: result.paymentId
             })
             
         } catch (error) {

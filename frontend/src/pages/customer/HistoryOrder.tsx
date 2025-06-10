@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Clock, MapPin, CreditCard, FileText, ChevronDown, ChevronUp } from "lucide-react";
 import { Order, OrderItem } from "../../types";
 import Navbar from "../../components/customer/Navbar";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const mockOrderData: Order[] = [
   {
@@ -103,6 +105,7 @@ const OrderHistory: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [expandedOrders, setExpandedOrders] = useState<Set<number>>(new Set());
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchOrders = async (): Promise<void> => {
@@ -254,6 +257,21 @@ const OrderHistory: React.FC = () => {
         </div>
       </div>
     );
+  }
+
+  if(!localStorage.getItem('access_token')) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Akses Ditolak',
+        text: 'Anda harus masuk untuk melihat riwayat pesanan.',
+        confirmButtonText: 'Masuk',
+        showCancelButton: true,
+        cancelButtonText: 'Batal'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            navigate('/login');
+        }
+    })
   }
 
   return (

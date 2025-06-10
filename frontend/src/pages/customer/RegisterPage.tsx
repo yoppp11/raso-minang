@@ -34,6 +34,7 @@ export default function RegisterPage() {
         e.preventDefault()
 
         setIsLoading(true)
+
         try {
             const response = await http({
                 method: 'POST',
@@ -67,6 +68,18 @@ export default function RegisterPage() {
         } finally {
             setIsLoading(false)
         }
+    }
+
+    if(localStorage.getItem('access_token')) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Sudah Masuk',
+            text: 'Anda sudah masuk. Silakan keluar terlebih dahulu sebelum mendaftar akun baru.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            navigate('/')
+        })
+        return null
     }
 
     return (

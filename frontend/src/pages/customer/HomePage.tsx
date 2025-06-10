@@ -8,6 +8,7 @@ import Navbar from '../../components/customer/Navbar';
 import { http } from '../../helpers/axios';
 import { Category, MenuItem } from '../../types';
 import '../../App.css';
+import { useNavigate } from 'react-router';
 
 const menuItems: MenuItem[] = [
   {
@@ -120,6 +121,7 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>(menuItems)
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
+  const navigate = useNavigate()
 
   const fetchData = async ()=> {
     try {
@@ -146,6 +148,19 @@ function HomePage() {
 
     if(selectedCategory !== null) filtered = filtered.filter(item => item.category_id === selectedCategory)
   }, [])
+
+  if(!localStorage.getItem('access_token')) {
+    // Swal.fire({
+    //   icon: 'warning',
+    //   title: 'Perhatian',
+    //   text: 'Anda harus masuk terlebih dahulu untuk mengakses halaman ini.',
+    //   confirmButtonText: 'Masuk',
+    //   preConfirm: () => {
+    //   }
+    // });
+    navigate('/login');
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

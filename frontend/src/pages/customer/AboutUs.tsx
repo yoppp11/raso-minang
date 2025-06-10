@@ -6,6 +6,8 @@ import FeatureCard from '../../components/customer/FeatureCard';
 import StatCard from '../../components/customer/StatCard';
 import TeamMember from '../../components/customer/TeamMember';
 import Button from '../../components/customer/Button';
+import { useNavigate } from 'react-router';
+import Swal from 'sweetalert2';
 
 // Types
 interface AboutFeature {
@@ -32,6 +34,8 @@ interface TeamMemberType {
 }
 
 const AboutUsPage = () => {
+  const navigate = useNavigate()
+
   const features: AboutFeature[] = [
     {
       id: 1,
@@ -113,6 +117,21 @@ const AboutUsPage = () => {
       description: "Memastikan kualitas dan konsistensi di setiap cabang"
     }
   ];
+
+  if(!localStorage.getItem('access_token')) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Perhatian',
+      text: 'Anda harus login untuk mengakses halaman ini.',
+      confirmButtonText: 'Login',
+      showCancelButton: true,
+      cancelButtonText: 'Batal'
+    }).then(result => {
+        if (result.isConfirmed) {
+          navigate('/login')
+        }
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

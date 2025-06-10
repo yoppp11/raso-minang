@@ -66,6 +66,17 @@ export default function LoginPage(){
         }
     }
 
+    if(localStorage.getItem('access_token')){
+        Swal.fire({
+            icon: 'info',
+            title: 'Sudah Login',
+            text: 'Anda sudah login. Silakan keluar terlebih dahulu jika ingin masuk dengan akun lain.',
+        }).then(() => {
+            navigate('/')
+        })
+        return null
+    }
+
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">

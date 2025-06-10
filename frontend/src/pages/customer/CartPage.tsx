@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import CartItemCard from "../../components/customer/CartItemCard";
 import OrderSummary from "../../components/customer/OrderSummary";
 import { CartItem } from "../../types";
@@ -10,6 +10,7 @@ import { http } from "../../helpers/axios";
 export default function CartPage(){
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const navigate = useNavigate()
 
     const fetchCartItems = async () => {
       setIsLoading(true);
@@ -42,64 +43,6 @@ export default function CartPage(){
 
     useEffect(()=> {
         fetchCartItems();
-        // const sampleData: CartItem[] = [
-        //     {
-        //         id: 1,
-        //         cart_id: 1,
-        //         menu_item_id: 1,
-        //         quantity: 2,
-        //         special_instructions: "Tanpa cabai",
-        //         menuItem: {
-        //           id: 1,
-        //           name: "Rendang Daging",
-        //           description: "Daging sapi yang dimasak dengan rempah-rempah khas Padang",
-        //           price: 35000,
-        //           image_url: "/api/placeholder/200/150",
-        //           is_avaible: true,
-        //           category_id: 1,
-        //           is_spicy: true
-        //         }
-        //       },
-        //       {
-        //         id: 2,
-        //         cart_id: 1,
-        //         menu_item_id: 2,
-        //         quantity: 1,
-        //         special_instructions: "",
-        //         menuItem: {
-        //           id: 2,
-        //           name: "Ayam Pop",
-        //           description: "Ayam yang direbus dalam air dengan rempah kemudian digoreng",
-        //           price: 25000,
-        //           image_url: "/api/placeholder/200/150",
-        //           is_avaible: true,
-        //           category_id: 1,
-        //           is_spicy: false
-        //         }
-        //       },
-        //       {
-        //         id: 3,
-        //         cart_id: 1,
-        //         menu_item_id: 3,
-        //         quantity: 2,
-        //         special_instructions: "Level pedas rendah",
-        //         menuItem: {
-        //           id: 3,
-        //           name: "Gulai Ikan",
-        //           description: "Ikan segar masak dalam kuah bumbu kuning khas Minang",
-        //           price: 30000,
-        //           image_url: "/api/placeholder/200/150",
-        //           is_avaible: true,
-        //           category_id: 2,
-        //           is_spicy: true
-        //         }
-        //       }
-        // ]
-
-        // setTimeout(() => {
-        //     setCartItems(sampleData);
-        //     setIsLoading(false);
-        //   }, 500);
     }, [])
 
     const subtotal = cartItems?.reduce((acc, item) => acc + (item.Menu_Item.price * item.quantity), 0)
@@ -225,6 +168,21 @@ export default function CartPage(){
             </div>
           </div>
         );
+    }
+
+    if(!localStorage.getItem('access_token')) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Perhatian',
+        text: 'Anda harus login untuk mengakses keranjang belanja.',
+        confirmButtonText: 'Login',
+        showCancelButton: true,
+        cancelButtonText: 'Batal'
+      }).then(result => {
+          if (result.isConfirmed) {
+            navigate('/login')
+          }
+      })
     }
 
     return (

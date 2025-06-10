@@ -1,10 +1,11 @@
 import { ArrowLeft, ChevronDown, Heart, Minus, Plus, Star } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import PriceFormatter from "../../components/customer/PriceFormatter";
 import SpicyBadge from "../../components/customer/SpicyBadge";
 import { MenuItem } from "../../types";
 import { http } from "../../helpers/axios";
+import Swal from "sweetalert2";
 
 // const mockMenu: MenuItem = {
 //   id: 1,
@@ -51,6 +52,7 @@ export default function DetailPage() {
   const [showNutrition, setShowNutrition] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
   const [isLoading, setIsLoading] = useState(true)
+  const navigate = useNavigate()
 
 
   const handleIncreaseQuantity = () => {
@@ -104,7 +106,18 @@ export default function DetailPage() {
         </div>
       </div>
     );
-}
+``}
+
+  if(!localStorage.getItem('access_token')) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Akses Ditolak',
+      text: 'Anda harus login untuk mengakses halaman ini.',
+      confirmButtonText: 'OK'
+    }).then(() => {
+      navigate('/login')
+    })
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen">
