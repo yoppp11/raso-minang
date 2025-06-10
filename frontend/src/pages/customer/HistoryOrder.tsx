@@ -4,101 +4,102 @@ import { Order, OrderItem } from "../../types";
 import Navbar from "../../components/customer/Navbar";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import { http } from "../../helpers/axios";
 
-const mockOrderData: Order[] = [
-  {
-    id: 1,
-    user_id: 1,
-    order_status: "Selesai",
-    order_type: "Delivery",
-    total_amount: 85000,
-    delivery_address: "Jl. Sudirman No. 123, Jakarta Pusat",
-    payment_status: "Lunas",
-    notes: "Pedas sedang, tanpa cabe rawit",
-    createdAt: "2024-06-01T10:30:00Z",
-    updatedAt: "2024-06-01T12:30:00Z",
-    order_items: [
-      {
-        id: 1,
-        order_id: 1,
-        menu_item_id: 1,
-        quantity: 2,
-        unit_price: 25000,
-        subtotal: 50000,
-        special_instructions: "Pedas sedang",
-        createdAt: "2024-06-01T10:30:00Z",
-        updatedAt: "2024-06-01T10:30:00Z",
-        menu_item: {
-          id: 1,
-          name: "Rendang Daging",
-          image_url: "/api/placeholder/80/80"
-        }
-      },
-      {
-        id: 2,
-        order_id: 1,
-        menu_item_id: 2,
-        quantity: 1,
-        unit_price: 35000,
-        subtotal: 35000,
-        special_instructions: "",
-        createdAt: "2024-06-01T10:30:00Z",
-        updatedAt: "2024-06-01T10:30:00Z",
-        menu_item: {
-          id: 2,
-          name: "Gulai Ayam",
-          image_url: "/api/placeholder/80/80"
-        }
-      }
-    ]
-  },
-  {
-    id: 2,
-    user_id: 1,
-    order_status: "Dalam Perjalanan",
-    order_type: "Delivery",
-    total_amount: 120000,
-    delivery_address: "Jl. Thamrin No. 45, Jakarta Pusat",
-    payment_status: "Lunas",
-    notes: "",
-    createdAt: "2024-06-04T14:15:00Z",
-    updatedAt: "2024-06-04T15:00:00Z",
-    order_items: [
-      {
-        id: 3,
-        order_id: 2,
-        menu_item_id: 3,
-        quantity: 1,
-        unit_price: 45000,
-        subtotal: 45000,
-        special_instructions: "",
-        createdAt: "2024-06-04T14:15:00Z",
-        updatedAt: "2024-06-04T14:15:00Z",
-        menu_item: {
-          id: 3,
-          name: "Ayam Pop",
-          image_url: "/api/placeholder/80/80"
-        }
-      },
-      {
-        id: 4,
-        order_id: 2,
-        menu_item_id: 4,
-        quantity: 3,
-        unit_price: 25000,
-        subtotal: 75000,
-        special_instructions: "Extra sambal",
-        createdAt: "2024-06-04T14:15:00Z",
-        updatedAt: "2024-06-04T14:15:00Z",
-        menu_item: {
-          id: 4,
-          name: "Dendeng Balado",
-          image_url: "/api/placeholder/80/80"
-        }
-      }
-    ]
-  }
-];
+// const mockOrderData: Order[] = [
+//   {
+//     id: 1,
+//     user_id: 1,
+//     order_status: "Selesai",
+//     order_type: "Delivery",
+//     total_amount: 85000,
+//     delivery_address: "Jl. Sudirman No. 123, Jakarta Pusat",
+//     payment_status: "Lunas",
+//     notes: "Pedas sedang, tanpa cabe rawit",
+//     createdAt: "2024-06-01T10:30:00Z",
+//     updatedAt: "2024-06-01T12:30:00Z",
+//     order_items: [
+//       {
+//         id: 1,
+//         order_id: 1,
+//         menu_item_id: 1,
+//         quantity: 2,
+//         unit_price: 25000,
+//         subtotal: 50000,
+//         special_instructions: "Pedas sedang",
+//         createdAt: "2024-06-01T10:30:00Z",
+//         updatedAt: "2024-06-01T10:30:00Z",
+//         menu_item: {
+//           id: 1,
+//           name: "Rendang Daging",
+//           image_url: "/api/placeholder/80/80"
+//         }
+//       },
+//       {
+//         id: 2,
+//         order_id: 1,
+//         menu_item_id: 2,
+//         quantity: 1,
+//         unit_price: 35000,
+//         subtotal: 35000,
+//         special_instructions: "",
+//         createdAt: "2024-06-01T10:30:00Z",
+//         updatedAt: "2024-06-01T10:30:00Z",
+//         menu_item: {
+//           id: 2,
+//           name: "Gulai Ayam",
+//           image_url: "/api/placeholder/80/80"
+//         }
+//       }
+//     ]
+//   },
+//   {
+//     id: 2,
+//     user_id: 1,
+//     order_status: "Dalam Perjalanan",
+//     order_type: "Delivery",
+//     total_amount: 120000,
+//     delivery_address: "Jl. Thamrin No. 45, Jakarta Pusat",
+//     payment_status: "Lunas",
+//     notes: "",
+//     createdAt: "2024-06-04T14:15:00Z",
+//     updatedAt: "2024-06-04T15:00:00Z",
+//     order_items: [
+//       {
+//         id: 3,
+//         order_id: 2,
+//         menu_item_id: 3,
+//         quantity: 1,
+//         unit_price: 45000,
+//         subtotal: 45000,
+//         special_instructions: "",
+//         createdAt: "2024-06-04T14:15:00Z",
+//         updatedAt: "2024-06-04T14:15:00Z",
+//         menu_item: {
+//           id: 3,
+//           name: "Ayam Pop",
+//           image_url: "/api/placeholder/80/80"
+//         }
+//       },
+//       {
+//         id: 4,
+//         order_id: 2,
+//         menu_item_id: 4,
+//         quantity: 3,
+//         unit_price: 25000,
+//         subtotal: 75000,
+//         special_instructions: "Extra sambal",
+//         createdAt: "2024-06-04T14:15:00Z",
+//         updatedAt: "2024-06-04T14:15:00Z",
+//         menu_item: {
+//           id: 4,
+//           name: "Dendeng Balado",
+//           image_url: "/api/placeholder/80/80"
+//         }
+//       }
+//     ]
+//   }
+// ];
 
 const OrderHistory: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -113,35 +114,17 @@ const OrderHistory: React.FC = () => {
         setLoading(true);
         setError("");
         
-        // Ganti dengan API call sebenarnya
-        // const token = localStorage.getItem('token');
-        // if (!token) {
-        //   throw new Error('Token tidak ditemukan');
-        // }
+        const response = await http({
+          method: 'get',
+          url: '/orders',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+
+        const data: Order[] = response.data.orders
         
-        // const response = await fetch('/api/orders/user', {
-        //   method: 'GET',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`,
-        //     'Content-Type': 'application/json'
-        //   }
-        // });
-        
-        // if (!response.ok) {
-        //   throw new Error(`HTTP error! status: ${response.status}`);
-        // }
-        
-        // const result: ApiResponse = await response.json();
-        
-        // if (!result.success) {
-        //   throw new Error(result.message || 'Gagal mengambil data pesanan');
-        // }
-        
-        // Simulasi delay API
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // setOrders(result.data);
-        setOrders(mockOrderData);
+        setOrders(data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Terjadi kesalahan yang tidak diketahui';
         setError(errorMessage);
@@ -212,8 +195,19 @@ const OrderHistory: React.FC = () => {
       try {
         setLoading(true);
         setError("");
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        setOrders(mockOrderData);
+
+        const response = await http({
+          method: 'get',
+          url: '/orders',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+
+        const data: Order[] = response.data.orders
+
+
+        setOrders(data);
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Terjadi kesalahan yang tidak diketahui';
         setError(errorMessage);
@@ -359,7 +353,7 @@ const OrderHistory: React.FC = () => {
                       onClick={() => toggleOrderExpansion(order.id)}
                       className="flex items-center justify-between w-full text-left text-sm font-medium text-gray-900 hover:text-green-600 transition-colors"
                     >
-                      <span>Detail Pesanan ({order.order_items.length} item)</span>
+                      <span>Detail Pesanan ({order.Order_Items.length} item)</span>
                       {expandedOrders.has(order.id) ? (
                         <ChevronUp size={20} />
                       ) : (
@@ -369,15 +363,15 @@ const OrderHistory: React.FC = () => {
 
                     {expandedOrders.has(order.id) && (
                       <div className="mt-4 space-y-3">
-                        {order.order_items.map((item: OrderItem) => (
+                        {order.Order_Items.map((item: OrderItem) => (
                           <div key={item.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
                             <img
-                              src={item.menu_item.image_url}
-                              alt={item.menu_item.name}
+                              src={item.Menu_Item.image_url}
+                              alt={item.Menu_Item.name}
                               className="w-16 h-16 object-cover rounded-lg"
                             />
                             <div className="flex-1">
-                              <h4 className="font-medium text-gray-900">{item.menu_item.name}</h4>
+                              <h4 className="font-medium text-gray-900">{item.Menu_Item.name}</h4>
                               <p className="text-sm text-gray-600">
                                 {item.quantity}x {formatCurrency(item.unit_price)}
                               </p>

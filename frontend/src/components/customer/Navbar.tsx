@@ -2,51 +2,23 @@ import { MenuIcon, Search, ShoppingBag, X, LogOut, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
-    const [user, setUser] = useState<User | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const checkAuthStatus = () => {
-            try {
-                const token = localStorage.getItem('access_token')
-                
-                if (token) {
-                    setIsLoggedIn(true);
-                } else {
-                    setUser(null);
-                    setIsLoggedIn(false);
-                }
-            } catch (error) {
-                console.error('Error parsing user data:', error)
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('user');
-                setUser(null);
-                setIsLoggedIn(false);
-            }
-        };
-
-        checkAuthStatus();
-    }, []); 
+        const token = localStorage.getItem('access_token');
+        setIsLoggedIn(!!token);
+    }, []);
 
     const handleLogout = (): void => {
         localStorage.removeItem('access_token');
-        localStorage.removeItem('user');
-        
-        setUser(null);
+        localStorage.removeItem('user'); // optional, if it exists
         setIsLoggedIn(false);
         setIsUserMenuOpen(false);
-        
-        navigate('/');
+        navigate('/', { replace: true });
     };
 
     const handleLogin = (): void => {
@@ -75,16 +47,19 @@ export default function Navbar() {
                     </div>
 
                     <div className="hidden md:flex items-center space-x-8">
-                        <Link to={'/'} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                        <Link to='/' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Beranda
                         </Link>
-                        <Link to={'/menu'} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                        <Link to='/menu' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Menu
                         </Link>
-                        <Link to={'/about-us'} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                        <Link to='/about-us' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Tentang Kami
                         </Link>
-                        <Link to={'/contact'} className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                        <Link to='/my-order' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
+                            Pesanan Saya
+                        </Link>
+                        <Link to='/contact' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Kontak
                         </Link>
                     </div>
@@ -105,10 +80,6 @@ export default function Navbar() {
                                 onClick={() => navigate('/cart')}
                             >
                                 <ShoppingBag className="text-gray-700" />
-                                {/* Uncomment untuk menampilkan badge cart count */}
-                                {/* <span className="absolute -top-2 -right-2 bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                                    2
-                                </span> */}
                             </button>
                         )}
 
@@ -121,15 +92,15 @@ export default function Navbar() {
                                     >
                                         <User size={20} />
                                         <span className="hidden md:block font-medium">
-                                            {user?.name || 'User'}
+                                            Akun
                                         </span>
                                     </button>
 
                                     {isUserMenuOpen && (
                                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                                             <div className="px-4 py-2 border-b border-gray-100">
-                                                <p className="text-sm font-medium text-gray-900">{user?.name}</p>
-                                                <p className="text-xs text-gray-500">{user?.email}</p>
+                                                <p className="text-sm font-medium text-gray-900">Akun</p>
+                                                <p className="text-xs text-gray-500">user@example.com</p>
                                             </div>
                                             <Link
                                                 to="/profile"
@@ -183,51 +154,31 @@ export default function Navbar() {
                     </div>
 
                     <div className="flex flex-col items-center space-y-6 p-4">
-                        {isLoggedIn && user && (
+                        {isLoggedIn && (
                             <div className="text-center pb-4 border-b border-gray-200 w-full">
                                 <div className="flex items-center justify-center mb-2">
                                     <User size={24} className="text-green-600" />
                                 </div>
-                                <p className="font-medium text-gray-900">{user.name}</p>
-                                <p className="text-sm text-gray-500">{user.email}</p>
+                                <p className="font-medium text-gray-900">Akun</p>
+                                <p className="text-sm text-gray-500">user@example.com</p>
                             </div>
                         )}
 
-                        <Link
-                            to={'/'} 
-                            className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors"
-                            onClick={closeMenus}
-                        >
+                        <Link to='/' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                             Beranda
                         </Link>
-                        <Link
-                            to={'/menu'} 
-                            className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors"
-                            onClick={closeMenus}
-                        >
+                        <Link to='/menu' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                             Menu
                         </Link>
                         {isLoggedIn && (
-                            <Link
-                                to={'/my-order'} 
-                                className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors"
-                                onClick={closeMenus}
-                            >
+                            <Link to='/my-order' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                                 My Order
                             </Link>
                         )}
-                        <Link
-                            to={'/about-us'} 
-                            className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors"
-                            onClick={closeMenus}
-                        >
+                        <Link to='/about-us' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                             Tentang Kami
                         </Link>
-                        <Link
-                            to={'/contact'} 
-                            className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors"
-                            onClick={closeMenus}
-                        >
+                        <Link to='/contact' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                             Kontak
                         </Link>
 

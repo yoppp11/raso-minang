@@ -1,6 +1,7 @@
 const { Cart_Item, Cart, Menu_Item, Order, Order_Item, sequelize } = require('../models/')
 const midtransClient = require('midtrans-client');
 const { randomUUID } = require('crypto');
+const { http } = require('../helpers/axios');
 const SECRET_KEY = process.env.SECRET_KEY   
 
 class OrderController {
@@ -55,7 +56,7 @@ class OrderController {
         
             let parameter = {
                 "transaction_details": {
-                    "order_id": orderId,
+                    "order_id": paymentId,
                     "gross_amount": totalAmount
                 },
                 "credit_card":{
@@ -85,6 +86,58 @@ class OrderController {
         try {
             const { paymentId, deliveryAddress, notes, totalAmount } = req.body
             const userId = req.user.id
+            const serverKey = process.env.SECRET_KEY
+            const authString = Buffer.from(`${serverKey}:`).toString('base64')
+            console.log(req.body);
+
+            const checkStatus = await http({
+                method: 'get',
+                url: `/v2/${paymentId}/status`,
+                headers: {
+                    Authorization: `Basic ${authString}`
+                }
+            })
+
+            if(checkStatus.data.transaction_status !== 'capture' && checkStatus.data.transaction_status !== 'settlement') throw { name: 'BadRequest', message: 'Payment not completed' }
+            
+            if(!deliveryAddress) throw { name: 'BadRequest', message: 'All fields is required' }
+
+            let detailCart = await Cart.findAll({
+                attributes: { exclude: ['createdAt', 'updatedAt'] },
+                where: {
+                    user_id: userId
+                },
+                include: {
+                    attributes: {exclude: ['createdAt', 'updatedAt']},
+                    model: Cart_Item,
+                    include: {
+                        model: Menu_Item,
+                        attributes: {exclude: ['createdAt', 'updatedAt']}
+                    }
+                }
+            })
+            let cartWithSubTotal = detailCart.flatMap(cart => {
+                const itemWithSubTotal = cart.Cart_Items.map(item => {
+                    const price = item.Menu_Item?.price || 0
+                    const quantity = item.quantity
+                    const subTotal = price * quantity
+                    
+                    return {
+                        id: item.id,
+                        cart_id: item.cart_id,
+                        menu_item_id: item.menu_item_id,
+                        quantity,
+                        special_instructions: item.special_instructions,
+                        Menu_Item: item.Menu_Item,
+                        subTotal
+                    }
+                })
+                return itemWithSubTotal
+            })
+
+            // cartWithSubTotal = cartWithSubTotal[0].concat(cartWithSubTotal[1])
+
+            const total = cartWithSubTotal.reduce((accumulate, item) => accumulate + item.subTotal, 0) + 10000
 
             const result = await sequelize.transaction(async (t)=> {
                 try {
@@ -94,8 +147,7 @@ class OrderController {
                         total_amount: totalAmount,
                         delivery_address: deliveryAddress,
                         payment_id: paymentId,
-                        payment_status: 'paid',
-                        
+                        payment_status: 'Lunas',
                         notes
                     }, { transaction: t })
         
@@ -142,6 +194,38 @@ class OrderController {
                 message: result.message,
                 orderId: result.orderId,
                 paymentId: result.paymentId
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetOrders(req, res, next){
+        try {
+            const userId = req.user.id
+
+            const orders = await Order.findAll({
+                where: {
+                    user_id: userId
+                },
+                attributes: { exclude: ['updatedAt'] },
+                include: [
+                    {
+                        model: Order_Item,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] },
+                        include: {
+                            model: Menu_Item,
+                            attributes: { exclude: ['createdAt', 'updatedAt'] }
+                        }
+                    }
+                ]
+            })
+
+            return res.status(200).send({
+                message: 'Orders retrieved successfully',
+                orders
             })
             
         } catch (error) {

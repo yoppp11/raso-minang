@@ -70,9 +70,10 @@ export default function OrderSummary({
                             Authorization: `Bearer ${localStorage.getItem('access_token')}`
                         },
                         data: {
-                            delivaryAddress: formData.deliveryAddress,
+                            deliveryAddress: formData.deliveryAddress,
                             notes: formData.notes,
                             totalAmount: total,
+                            paymentId: transaction.paymentId
                         }
                     })
 

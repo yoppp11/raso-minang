@@ -11,6 +11,7 @@ import AboutUsPage from './pages/customer/AboutUs.tsx'
 import AddMenuPage from './pages/admin/AddMenuItem.tsx'
 import MenuItemsTable from './pages/admin/MenuItems.tsx'
 import OrderHistory from './pages/customer/HistoryOrder.tsx'
+import ListMenu from './pages/customer/ListMenu.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/cart" element={<CartPage />} />
       <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/my-order" element={<OrderHistory />} />
+      <Route path="/menu" element={<ListMenu />} />
       <Route path="/:id" element={<DetailPage />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />

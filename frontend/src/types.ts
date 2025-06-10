@@ -185,7 +185,8 @@ declare global {
 
 export interface PaymentResponse {
     token: string
-    order_id: string
+    paymentId: string
+    totalAmount: number
 }
 
 export interface MenuItemOrder {
@@ -204,7 +205,7 @@ export interface OrderItem {
     special_instructions: string;
     createdAt: string;
     updatedAt: string;
-    menu_item: MenuItemOrder;
+    Menu_Item: MenuItemOrder;
   }
 
 export interface Order {
@@ -218,11 +219,20 @@ export interface Order {
     notes: string;
     createdAt: string;
     updatedAt: string;
-    order_items: OrderItem[];
+    Order_Items: OrderItem[];
   }
   
 export interface ApiResponse {
     success: boolean;
     data: Order[];
     message?: string;
+}
+
+ export interface FilterOptions {
+    category: string;
+    isSpicy: boolean | null;
+    isAvailable: boolean | null;
+    priceRange: [number, number];
+    sortBy: 'name' | 'price' | 'rating';
+    sortOrder: 'asc' | 'desc';
   }

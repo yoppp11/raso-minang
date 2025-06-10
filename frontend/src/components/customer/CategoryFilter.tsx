@@ -5,7 +5,7 @@ export default function CategoryFilter({
     selectedCategory, 
     onSelectCategory 
 }: { 
-    categories: Category[], 
+    categories?: Category[], 
     selectedCategory: number | null, 
     onSelectCategory: (id: number | null) => void 
 }) {
@@ -18,7 +18,7 @@ export default function CategoryFilter({
                 Semua Menu
             </button>
 
-            {categories.map((category) => (
+            {categories?.map((category) => (
                 <button
                     key={category.id}
                     onClick={() => onSelectCategory(category.id)}

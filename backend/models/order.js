@@ -26,19 +26,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     order_status: {
       type: DataTypes.STRING,
-      defaultValue: 'pending'
+      defaultValue: 'Menunggu'
     },
     order_type: {
       type: DataTypes.STRING,
-      defaultValue: 'online'
+      defaultValue: 'Online'
     },
     total_amount: DataTypes.INTEGER,
     delivery_address: DataTypes.STRING,
     payment_status: {
       type: DataTypes.STRING,
-      defaultValue: 'unpaid'
+      defaultValue: 'Menunggu'
     },
-    notes: DataTypes.STRING
+    notes: DataTypes.STRING,
+    payment_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
   }, {
     sequelize,
     modelName: 'Order',

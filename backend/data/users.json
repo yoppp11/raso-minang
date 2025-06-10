@@ -1,0 +1,25 @@
+[
+    {
+        "username": "admin",
+        "password": "$2b$10$eW5z1Z3a7f8Q9j5F4k5u6Oe1Z3a7f8Q9j5F4k5u6Oe1Z3a7f8Q9j5F4",
+        "role": "admin",
+        "email": "admin1@gmail.com",
+        "full_name": "Admin User",
+        "address": "Jl. Admin No. 1, Padang",
+        "phone_number": "081234567890",
+        "createdAt": "2025-04-29T00:00:00Z",
+        "updatedAt": "2025-04-29T00:00:00Z"
+    },
+    {
+        "username": "user1",
+        "password": "$2b$10$eW5z1Z3a7f8Q9j5F4k5u6Oe1Z3a7f8Q9j5F4k5u6Oe1Z3a7f8Q9j5F4",
+        "role": "user",
+        "email": "user1@gmail.com",
+        "full_name": "User",
+        "address": "Jl. Admin No. 1, Padang",
+        "phone_number": "081234567890",
+        "createdAt": "2025-04-29T00:00:00Z",
+        "updatedAt": "2025-04-29T00:00:00Z"
+
+    }
+]
