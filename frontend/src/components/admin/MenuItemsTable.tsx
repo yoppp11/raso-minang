@@ -44,7 +44,7 @@ export default function MenuItemsTable() {
     
     const filteredItems = menuItems.filter(item => {
       const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesCategory = filterCategory === "all" || item.Category.name === filterCategory
+      const matchesCategory = filterCategory === "all" || item.Category?.name === filterCategory
       return matchesSearch && matchesCategory
     })
     
@@ -117,7 +117,7 @@ export default function MenuItemsTable() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                      {item.Category.name}
+                      {item.Category?.name}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -137,7 +137,10 @@ export default function MenuItemsTable() {
                       <Button variant="ghost" size="sm">
                         <Eye className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button
+                        onClick={() => navigate(`/admin/edit-menu/${item.id}`)}
+                        variant="ghost" size="sm"
+                      >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="sm">

@@ -98,7 +98,7 @@ export interface FormDataInput {
     description: string
     price: string
     category: string
-    image: File | null
+    image: File | null | string
     isSpicy: boolean
     isAvailable: boolean
 }

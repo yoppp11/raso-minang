@@ -12,6 +12,7 @@ import AddMenuPage from './pages/admin/AddMenuItem.tsx'
 import MenuItemsTable from './pages/admin/MenuItems.tsx'
 import OrderHistory from './pages/customer/HistoryOrder.tsx'
 import ListMenu from './pages/customer/ListMenu.tsx'
+import EditMenuPage from './pages/admin/EditMenuItem.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/add-menu" element={<AddMenuPage />} />
       <Route path="/admin/list-menu" element={<MenuItemsTable />} />
+      <Route path="/admin/edit-menu/:id" element={<EditMenuPage />} />
     </Routes>
   </BrowserRouter>
   // <StrictMode>

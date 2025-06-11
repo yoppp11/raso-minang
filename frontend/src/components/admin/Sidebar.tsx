@@ -1,13 +1,14 @@
 import { BarChart3, ChefHat, Home, LogOut, Settings, ShoppingBag, Users, X } from "lucide-react"
+import { Link } from "react-router"
 
 export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }){
     const menuItems = [
-      { icon: Home, label: "Dashboard", active: true },
-      { icon: ChefHat, label: "Menu Items" },
-      { icon: ShoppingBag, label: "Orders" },
-      { icon: Users, label: "Customers" },
-      { icon: BarChart3, label: "Analytics" },
-      { icon: Settings, label: "Settings" }
+      { icon: Home, label: "Dashboard", active: true, ref: '/admin/dashboard' },
+      { icon: ChefHat, label: "Menu Items", ref: '/admin/list-menu' },
+      { icon: ShoppingBag, label: "Orders", ref: '/admin/orders' },
+      { icon: Users, label: "Customers", ref: '/admin/customers' },
+      { icon: BarChart3, label: "Analytics", ref: '/admin/analytics' },
+      { icon: Settings, label: "Settings", ref: '/admin/settings' },
     ]
     
     return (
@@ -35,9 +36,9 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose:
           
           <nav className="mt-6 px-3">
             {menuItems.map((item, index) => (
-              <a
+              <Link
                 key={index}
-                href="#"
+                to={item.ref || '#'}
                 className={`flex items-center px-3 py-3 rounded-lg mb-1 transition-colors ${
                   item.active 
                     ? 'bg-green-50 text-green-700 border-r-2 border-green-600' 
@@ -46,7 +47,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose:
               >
                 <item.icon className="h-5 w-5 mr-3" />
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
           
