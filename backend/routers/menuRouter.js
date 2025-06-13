@@ -13,6 +13,7 @@ menuRouter.post('/menus', upload.single('image'), MenuController.routeCreateMenu
 menuRouter.put('/menus/:id', upload.single('image'), MenuController.routeUpdateMenu)
 menuRouter.get('/categories',  MenuController.routeGetCategories)
 menuRouter.get('/menus/:id', MenuController.routeGetMenuById)
+menuRouter.delete('/menus/:id', MenuController.routeDeleteMenu)
 
 
 module.exports = {

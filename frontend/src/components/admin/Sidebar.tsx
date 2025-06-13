@@ -5,10 +5,8 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose:
     const menuItems = [
       { icon: Home, label: "Dashboard", active: true, ref: '/admin/dashboard' },
       { icon: ChefHat, label: "Menu Items", ref: '/admin/list-menu' },
-      { icon: ShoppingBag, label: "Orders", ref: '/admin/orders' },
-      { icon: Users, label: "Customers", ref: '/admin/customers' },
-      { icon: BarChart3, label: "Analytics", ref: '/admin/analytics' },
-      { icon: Settings, label: "Settings", ref: '/admin/settings' },
+      { icon: ShoppingBag, label: "Orders", ref: '/admin/list-order' },
+      { icon: Users, label: "Customers", ref: '/admin/customers' }
     ]
     
     return (

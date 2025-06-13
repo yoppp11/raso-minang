@@ -1,4 +1,4 @@
-const { Cart_Item, Cart, Menu_Item, Order, Order_Item, sequelize } = require('../models/')
+const { Cart_Item, Cart, Menu_Item, Order, Order_Item, User, sequelize } = require('../models/')
 const midtransClient = require('midtrans-client');
 const { randomUUID } = require('crypto');
 const { http } = require('../helpers/axios');
@@ -219,6 +219,10 @@ class OrderController {
                             model: Menu_Item,
                             attributes: { exclude: ['createdAt', 'updatedAt'] }
                         }
+                    },
+                    {
+                        model: User,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }
                     }
                 ]
             })
@@ -226,6 +230,70 @@ class OrderController {
             return res.status(200).send({
                 message: 'Orders retrieved successfully',
                 orders
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetAllOrders(req, res, next){
+        try {
+            const orders = await Order.findAll({
+                attributes: { exclude: ['updatedAt'] },
+                include: [
+                    {
+                        model: Order_Item,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] },
+                        include: {
+                            model: Menu_Item,
+                            attributes: { exclude: ['createdAt', 'updatedAt'] }
+                        }
+                    },
+                    {
+                        model: User,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }
+                    }
+                ],
+                order: [['id', 'DESC']]
+            })
+
+            return res.status(200).send({
+                message: 'Orders retrieved successfully',
+                orders
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeUpdateOrder(req, res, next){
+        try {
+            const { id } = req.params
+            const { order_status } = req.body
+            if(!order_status) throw { name: 'BadRequest', message: 'Order status is required' }
+
+            const order = await Order.findByPk(+id)
+            if(!order) throw {
+                name: "NotFound",
+                message: "Order Not Found"
+            }
+
+            await Order.update({
+                order_status
+            }, {
+                where: {
+                    id: +id
+                }
+            })
+
+            return res.status(200).send({
+                message: 'Order updated successfully',
+                orderId: id,
+                order_status
             })
             
         } catch (error) {

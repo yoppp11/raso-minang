@@ -143,7 +143,47 @@ export default function MenuItemsTable() {
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
-                      <Button variant="ghost" size="sm">
+                      <Button
+                        onClick={ async ()=> {
+                          Swal.fire({
+                            title: 'Hapus Menu',
+                            text: `Apakah Anda yakin ingin menghapus menu "${item.name}"?`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Ya, Hapus',
+                            cancelButtonText: 'Batal'
+                          }).then(async (result) => {
+                            if (result.isConfirmed) {
+                              try {
+                                await http({
+                                  method: 'DELETE',
+                                  url: `/menus/${item.id}`,
+                                  headers: {
+                                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                                  }
+                                })
+                                Swal.fire({
+                                  icon: 'success',
+                                  title: 'Berhasil',
+                                  text: 'Menu berhasil dihapus.',
+                                })
+                                fetchData() 
+                              } catch (error) {
+                                console.error(error)
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'Gagal',
+                                  text: 'Terjadi kesalahan saat menghapus menu.',
+                                })
+                              }
+                            }
+                          })
+
+                          
+                        }} 
+                        variant="ghost" 
+                        size="sm"
+                        >
                         <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </div>

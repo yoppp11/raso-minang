@@ -117,9 +117,10 @@ class MenuController {
     static async routeUpdateMenu(req, res, next){
         try {
             const imageFile = req.file
-            const { name, description, price, categoryId, isAvaible, isSpicy, image } = req.body
+            const { name, description, price, categoryId, isAvailable, isSpicy, image } = req.body
             const { id } = req.params
             console.log(req.body, '<=====');
+            console.log(req.file);
 
             if(!name) throw { name: 'BadRequest', message: 'Name is required' }
             if(!description) throw { name: 'BadRequest', message: 'Description is required' }
@@ -138,9 +139,9 @@ class MenuController {
             }
 
             let imageUrl = image
-            if (imageFile?.buffer || imageFile?.mimetype) {
-                const imageString = imageFile.buffer.toString('base64');
-                const base64Image = `data:${imageFile.mimetype};base64,${imageString}`;
+            if (!imageUrl) {
+                const imageString = imageFile?.buffer.toString('base64');
+                const base64Image = `data:${imageFile?.mimetype};base64,${imageString}`;
                 const uploadedImage = await cloudinary.v2.uploader.upload(base64Image);
                 imageUrl = uploadedImage.secure_url;
               }
@@ -151,8 +152,8 @@ class MenuController {
                 price,
                 category_id: categoryId,
                 image_url: imageUrl.secure_url | image,
-                is_avaible: isAvaible,
-                is_spicy: isSpicy
+                is_avaible: isAvailable === 'true',
+                is_spicy: isSpicy === 'true'
             }, {
                 where: { id }
             })
@@ -165,7 +166,7 @@ class MenuController {
                     description,
                     price,
                     categoryId,
-                    isAvaible,
+                    isAvaible: isAvailable,
                     isSpicy,
                     imageUrl: imageUrl.secure_url
                 }
@@ -197,6 +198,33 @@ class MenuController {
             console.log(error);
             next(error)
             
+        }
+    }
+
+    static async routeDeleteMenu(req, res, next){
+        try {
+            const { id } = req.params
+            
+            const menu = await Menu_Item.findByPk(+id)
+            if(!menu) throw {
+                name: "NotFound",
+                message: "Menu Not Found"
+            }
+
+            await Menu_Item.destroy({
+                where: {
+                    id
+                }
+            })
+
+            return res.status(200).send({
+                status: "success",
+                message: "Menu Deleted Successfully"
+            })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
         }
     }
 }

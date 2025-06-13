@@ -1,46 +1,14 @@
-import { ChefHat, DollarSign, Menu, Package, Search, ShoppingBag, Users } from "lucide-react"
-import { useEffect, useState } from "react"
-import Swal from "sweetalert2"
-import Card from "../../components/admin/Card"
-import Input from "../../components/admin/Input"
-import MenuItemsTable from "../../components/admin/MenuItemsTable"
+import { useState } from "react"
 import Sidebar from "../../components/admin/Sidebar"
+import { ChefHat, DollarSign, Menu, Package, Search, ShoppingBag, Users } from "lucide-react"
+import Input from "../../components/admin/Input"
 import StatsCard from "../../components/admin/StatsCard"
-import { http } from "../../helpers/axios"
-import { Order } from "../../types"
+import Card from "../../components/admin/Card"
 import OrdersTable from "./Orders"
 
 
-export default function AdminDashboard() {
+export default function OrdersPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [orders, setOrders] = useState<Order[]>([]) 
-
-  const fetchOrder = async () => {
-    try {
-      const response  = await http({
-        method: 'get',
-        url: '/orders',
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-        }
-      })
-
-      const data: Order[] = response.data.orders
-      console.log(data);
-      setOrders(data)
-      
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-
-      })
-      
-    }
-  }
-
-  useEffect(()=> {
-    fetchOrder()
-  }, [])
   
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -105,10 +73,16 @@ export default function AdminDashboard() {
             />
           </div>
           
-          <MenuItemsTable />
+          <OrdersTable />
           
           <div className="mt-8">
-            <OrdersTable />
+            <Card className="p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Pesanan Terbaru</h2>
+              <div className="text-center py-8 text-gray-500">
+                <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Data pesanan terbaru akan ditampilkan di sini</p>
+              </div>
+            </Card>
           </div>
         </main>
       </div>
