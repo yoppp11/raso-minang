@@ -74,16 +74,6 @@ export default function OrdersPage() {
           </div>
           
           <OrdersTable />
-          
-          <div className="mt-8">
-            <Card className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Pesanan Terbaru</h2>
-              <div className="text-center py-8 text-gray-500">
-                <Package className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Data pesanan terbaru akan ditampilkan di sini</p>
-              </div>
-            </Card>
-          </div>
         </main>
       </div>
     </div>

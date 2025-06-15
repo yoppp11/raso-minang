@@ -1,4 +1,4 @@
-import { BarChart3, ChefHat, Home, LogOut, Settings, ShoppingBag, Users, X } from "lucide-react"
+import {  ChefHat, Home, LogOut,  ShoppingBag, Users, X } from "lucide-react"
 import { Link } from "react-router"
 
 export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }){
