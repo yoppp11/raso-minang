@@ -59,20 +59,17 @@ export default function Navbar() {
                         <Link to='/my-order' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Pesanan Saya
                         </Link>
-                        <Link to='/contact' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
-                            Kontak
-                        </Link>
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <div className="relative hidden md:block">
+                        {/* <div className="relative hidden md:block">
                             <input 
                                 type="text"
                                 placeholder="Cari menu..."
                                 className="bg-gray-100 rounded-full py-2 pl-10 pr-4 w-64 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                             />
                             <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-                        </div>
+                        </div> */}
 
                         {isLoggedIn && (
                             <button 
@@ -178,11 +175,8 @@ export default function Navbar() {
                         <Link to='/about-us' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                             Tentang Kami
                         </Link>
-                        <Link to='/contact' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
-                            Kontak
-                        </Link>
 
-                        <div className="w-full mt-4">
+                        {/* <div className="w-full mt-4">
                             <div className="relative">
                                 <input 
                                     type="text"
@@ -191,7 +185,7 @@ export default function Navbar() {
                                 />
                                 <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="w-full pt-4 border-t border-gray-200">
                             {isLoggedIn ? (

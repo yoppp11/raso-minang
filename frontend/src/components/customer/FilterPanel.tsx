@@ -33,14 +33,14 @@ const resetFilters = () => {
     onFiltersChange({
     category: "",
     isSpicy: null,
-    isAvailable: null,
+    isAvaible: null,
     priceRange: [0, 100000],
     sortBy: "name",
     sortOrder: "asc"
     });
 };
 
-const hasActiveFilters = filters.category !== "" || filters.isSpicy !== null || filters.isAvailable !== null;
+const hasActiveFilters = filters.category !== "" || filters.isSpicy !== null || filters.isAvaible !== null;
 
 return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
@@ -73,7 +73,7 @@ return (
         </div>
 
         <div className={`space-y-4 ${isOpen ? 'block' : 'hidden lg:block'}`}>
-            {/* Category Filter */}
+            
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
                 <Select
@@ -84,7 +84,6 @@ return (
                 />
             </div>
 
-            {/* Spicy Filter */}
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Level Pedas</label>
             <div className="flex flex-wrap gap-2">
@@ -109,18 +108,17 @@ return (
                     <CategoryFilter
                         categories={availabilityOptions}
                         selectedCategory={
-                        filters.isAvailable === null ? 0 : filters.isAvailable === true ? 1 : 2
+                        filters.isAvaible === null ? 0 : filters.isAvaible === true ? 1 : 2
                         }
                         onSelectCategory={(id) => {
-                        if (id === 0) updateFilter("isAvailable", null);
-                        else if (id === 1) updateFilter("isAvailable", true);
-                        else if (id === 2) updateFilter("isAvailable", false);
+                        if (id === 0) updateFilter("isAvaible", null);
+                        else if (id === 1) updateFilter("isAvaible", true);
+                        else if (id === 2) updateFilter("isAvaible", false);
                         }}
                     />
                 </div>
             </div>
 
-            {/* Sort Options */}
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Urutkan</label>
                 <div className="grid grid-cols-2 gap-2">

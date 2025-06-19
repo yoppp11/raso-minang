@@ -231,7 +231,7 @@ export interface ApiResponse {
  export interface FilterOptions {
     category: string;
     isSpicy: boolean | null;
-    isAvailable: boolean | null;
+    isAvaible: boolean | null;
     priceRange: [number, number];
     sortBy: 'name' | 'price' | 'rating';
     sortOrder: 'asc' | 'desc';

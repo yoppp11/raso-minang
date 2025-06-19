@@ -1,11 +1,11 @@
-import { ArrowLeft, ChevronDown, Heart, Minus, Plus, Star } from "lucide-react";
+import { ArrowLeft, Heart, Minus, Plus, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
+import Swal from "sweetalert2";
 import PriceFormatter from "../../components/customer/PriceFormatter";
 import SpicyBadge from "../../components/customer/SpicyBadge";
-import { MenuItem } from "../../types";
 import { http } from "../../helpers/axios";
-import Swal from "sweetalert2";
+import { MenuItem } from "../../types";
 
 // const mockMenu: MenuItem = {
 //   id: 1,
@@ -128,13 +128,13 @@ export default function DetailPage() {
               <ArrowLeft className="mr-2" size={20} />
               <span className="font-medium">Kembali ke Menu</span>
             </Link>
-            <button
+            {/* <button
               onClick={() => setIsFavorite(!isFavorite)}
               className="flex items-center space-x-2 text-gray-700 hover:text-green-600"
             >
               <Heart className={`${isFavorite ? 'fill-red-500 text-red-500' : ''}`} size={20} />
               <span className="font-medium">{isFavorite ? 'Favorit' : 'Tambah ke Favorit'}</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -203,7 +203,7 @@ export default function DetailPage() {
 
       <div className="container mx-auto px-4 mt-6 mb-12">
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="border-b border-gray-200">
+          {/* <div className="border-b border-gray-200">
             <button 
               onClick={() => setShowNutrition(!showNutrition)}
               className="flex items-center justify-between w-full p-4 text-left"
@@ -232,9 +232,9 @@ export default function DetailPage() {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
           
-          <div>
+          {/* <div>
             <button 
               onClick={() => setShowReviews(!showReviews)}
               className="flex items-center justify-between w-full p-4 text-left"
@@ -289,7 +289,7 @@ export default function DetailPage() {
                 </button>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </div>
 

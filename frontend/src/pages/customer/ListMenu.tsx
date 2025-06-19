@@ -35,7 +35,7 @@ import { Category, FilterOptions, MenuItem } from "../../types";
     const [filters, setFilters] = useState<FilterOptions>({
       category: "",
       isSpicy: null,
-      isAvailable: null,
+      isAvaible: null,
       priceRange: [0, 100000],
       sortBy: "name",
       sortOrder: "asc"
@@ -113,7 +113,7 @@ import { Category, FilterOptions, MenuItem } from "../../types";
         
         const matchesSpicy = filters.isSpicy === null || item.is_spicy === filters.isSpicy;
         
-        const matchesAvailability = filters.isAvailable === null || item.is_avaible === filters.isAvailable;
+        const matchesAvailability = filters.isAvaible === null || item.is_avaible === filters.isAvaible;
         
         const matchesPrice = item.price >= filters.priceRange[0] && item.price <= filters.priceRange[1];
   
@@ -216,7 +216,7 @@ import { Category, FilterOptions, MenuItem } from "../../types";
                       setFilters({
                         category: "",
                         isSpicy: null,
-                        isAvailable: null,
+                        isAvaible: null,
                         priceRange: [0, 100000],
                         sortBy: "name",
                         sortOrder: "asc"
