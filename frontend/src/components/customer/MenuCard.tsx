@@ -47,8 +47,8 @@ export default function MenuCard({ item }: { item: MenuItem }){
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg" onClick={()=>{ navigate('/'+ item.id) }}>
             <div className="relative">
                 <img 
-                    src="" 
-                    alt="" 
+                    src={item.image_url}
+                    alt={item.name} 
                     className="w-full h-48 object-cover"
                 />
                 {/* <button

@@ -1,4 +1,4 @@
-import { ArrowLeft, Heart, Minus, Plus, Star } from "lucide-react";
+import { ArrowLeft, Minus, Plus, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";

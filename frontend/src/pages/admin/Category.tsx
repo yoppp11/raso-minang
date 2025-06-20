@@ -3,10 +3,10 @@ import Sidebar from "../../components/admin/Sidebar"
 import { ChefHat, DollarSign, Menu, Search, ShoppingBag, Users } from "lucide-react"
 import Input from "../../components/admin/Input"
 import StatsCard from "../../components/admin/StatsCard"
-import OrdersTable from "./Orders"
+import CategoriesTable from "../../components/admin/CategoryTable"
 
 
-export default function OrdersPage() {
+export default function CategoryPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   
   return (
@@ -72,7 +72,7 @@ export default function OrdersPage() {
             />
           </div>
           
-          <OrdersTable />
+          <CategoriesTable />
         </main>
       </div>
     </div>

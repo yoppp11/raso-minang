@@ -293,7 +293,7 @@ export default function EditMenuPage(): JSX.Element {
 
     try {
         const response = await http({
-        method: 'put',
+        method: 'patch',
         url: `/menus/${id}`,
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('access_token')}`,

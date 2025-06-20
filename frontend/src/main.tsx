@@ -14,6 +14,9 @@ import HomePage from './pages/customer/HomePage.tsx'
 import ListMenu from './pages/customer/ListMenu.tsx'
 import LoginPage from './pages/customer/LoginPage.tsx'
 import RegisterPage from './pages/customer/RegisterPage.tsx'
+import CategoryPage from './pages/admin/Category.tsx'
+import AddCategoryPage from './pages/admin/AddCategory.tsx'
+import EditCategoryPage from './pages/admin/EditCategory.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -29,9 +32,12 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/add-menu" element={<AddMenuPage />} />
+      <Route path="/admin/add-category" element={<AddCategoryPage />} />
       <Route path="/admin/list-menu" element={<MenuItemsTable />} />
       <Route path="/admin/list-order" element={<OrdersPage />} />
+      <Route path="/admin/category" element={<CategoryPage />} />
       <Route path="/admin/edit-menu/:id" element={<EditMenuPage />} />
+      <Route path="/admin/edit-category/:id" element={<EditCategoryPage />} />
     </Routes>
   </BrowserRouter>
   // <StrictMode>

@@ -1,7 +1,6 @@
-import { ChefHat, DollarSign, Menu, Package, Search, ShoppingBag, Users } from "lucide-react"
+import { ChefHat, DollarSign, Menu, Search, ShoppingBag, Users } from "lucide-react"
 import { useEffect, useState } from "react"
 import Swal from "sweetalert2"
-import Card from "../../components/admin/Card"
 import Input from "../../components/admin/Input"
 import MenuItemsTable from "../../components/admin/MenuItemsTable"
 import Sidebar from "../../components/admin/Sidebar"

@@ -144,6 +144,7 @@ class MenuController {
                 const base64Image = `data:${imageFile?.mimetype};base64,${imageString}`;
                 const uploadedImage = await cloudinary.v2.uploader.upload(base64Image);
                 imageUrl = uploadedImage.secure_url;
+                console.log('imageUrl', imageUrl);
               }
 
             await Menu_Item.update({
@@ -151,7 +152,7 @@ class MenuController {
                 description,
                 price,
                 category_id: categoryId,
-                image_url: imageUrl.secure_url | image,
+                image_url: imageUrl,
                 is_avaible: isAvailable === 'true',
                 is_spicy: isSpicy === 'true'
             }, {
@@ -184,8 +185,7 @@ class MenuController {
             const result = await Category.findAll({
                 order: [
                     ['id', 'ASC']
-                ],
-                attributes: ['id', 'name']
+                ]
             })
 
             return res.status(200).send({
@@ -198,6 +198,130 @@ class MenuController {
             console.log(error);
             next(error)
             
+        }
+    }
+
+    static async routeGetCategoryById(req, res, next){
+        try {
+            const { id } = req.params
+
+            const category = await Category.findByPk(+id)
+
+            if(!category) throw {
+                name: "NotFound",
+                message: "Category Not Found"
+            }
+
+            return res.status(200).send({
+                status: "success",
+                message: "Get Category By Id",
+                data: category
+            })
+            
+        }
+        catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeEditCategory(req, res, next){
+        try {
+            const { id } = req.params
+            const { name, description } = req.body
+            if(!name) throw {
+                name: "BadRequest",
+                message: "Name is required"
+            }
+            if(!description) throw {
+                name: "BadRequest",
+                message: "Description is required"
+            }
+
+            const category = await Category.findByPk(+id)
+            if(!category) throw {
+                name: "NotFound",
+                message: "Category Not Found"
+            }
+
+            await Category.update({
+                name,
+                description
+            }, {
+                where: {
+                    id
+                }
+            })
+
+            return res.status(200).send({
+                status: "success",
+                message: "Category Updated Successfully",
+                data: {
+                    id,
+                    name,
+                    description
+                }
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeAddCategory(req, res, next){
+        try {
+            const { name, description } = req.body
+            if(!name) throw {
+                name: "BadRequest",
+                message: "Name is required"
+            }
+            if(!description) throw {
+                name: "BadRequest",
+                message: "Description is required"
+            }
+
+            const category = await Category.create({
+                name,
+                description
+            })
+
+            return res.status(201).send({
+                status: "success",
+                message: "Category Created Successfully",
+                data: category
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeDeteleCategory(req, res, next){
+        try {
+            const { id } = req.params
+
+            const category = await Category.findByPk(+id)
+
+            if(!category) throw {
+                name: "NotFound",
+                message: "Category Not Found"
+            }
+
+            await Category.destroy({
+                where: {
+                    id
+                }
+            })
+            return res.status(200).send({
+                status: "success",
+                message: "Category Deleted Successfully"
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
         }
     }
 

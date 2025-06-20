@@ -1,10 +1,11 @@
-import {  ChefHat, Home, LogOut,  ShoppingBag, Users, X } from "lucide-react"
+import {  ChefHat, Home, LogOut,  ShoppingBag, Users, X, Layers } from "lucide-react"
 import { Link } from "react-router"
 
 export default function Sidebar({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }){
     const menuItems = [
       { icon: Home, label: "Dashboard", active: true, ref: '/admin/dashboard' },
       { icon: ChefHat, label: "Menu Items", ref: '/admin/list-menu' },
+      { icon: Layers, label: "Category", ref: '/admin/category' },
       { icon: ShoppingBag, label: "Orders", ref: '/admin/list-order' },
       { icon: Users, label: "Customers", ref: '/admin/customers' }
     ]

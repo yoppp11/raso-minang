@@ -10,104 +10,6 @@ import { Category, MenuItem } from '../../types';
 import '../../App.css';
 import { Link, useNavigate } from 'react-router';
 
-const menuItems: MenuItem[] = [
-  {
-    id: 1,
-    name: "Nasi Padang Rendang",
-    description: "Nasi dengan rendang daging sapi khas Padang yang lezat",
-    price: 35000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 1,
-    is_spicy: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 2,
-    name: "Rendang Daging",
-    description: "Rendang daging sapi yang dimasak dengan rempah khas Minangkabau",
-    price: 25000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 2,
-    is_spicy: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 3,
-    name: "Ayam Pop",
-    description: "Ayam rebus khas Minang yang digoreng tanpa tepung",
-    price: 20000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 2,
-    is_spicy: false,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 4,
-    name: "Gulai Nangka",
-    description: "Sayur nangka muda yang dimasak dengan santan dan bumbu khas Padang",
-    price: 15000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 3,
-    is_spicy: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 5,
-    name: "Es Teh Manis",
-    description: "Teh manis dingin yang segar",
-    price: 7000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 4,
-    is_spicy: false,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 6,
-    name: "Sambal Lado Mudo",
-    description: "Sambal cabai hijau khas Minang dengan tingkat kepedasan tinggi",
-    price: 10000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 5,
-    is_spicy: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 7,
-    name: "Nasi Padang Ayam Pop",
-    description: "Nasi dengan ayam pop dan lauk pilihan",
-    price: 30000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 1,
-    is_spicy: false,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  },
-  {
-    id: 8,
-    name: "Dendeng Balado",
-    description: "Irisan daging sapi yang digoreng kering dan disiram sambal balado",
-    price: 28000,
-    image_url: "/api/placeholder/300/200",
-    is_avaible: true,
-    category_id: 2,
-    is_spicy: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z"
-  }
-];
 
 const categories: Category[] = [
   { id: 1, name: "Nasi" },
@@ -119,7 +21,7 @@ const categories: Category[] = [
 
 function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
-  const [filteredItems, setFilteredItems] = useState<MenuItem[]>(menuItems)
+  const [filteredItems, setFilteredItems] = useState<MenuItem[]>([])
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
   const navigate = useNavigate()
 
@@ -127,8 +29,15 @@ function HomePage() {
     try {
         const response = await http({
             method: 'get',
-            url: '/menu'
+            url: '/menus',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
         })
+        console.log(response);
+        
+
+        setFilteredItems(response.data.data)
         
     } catch (error) {
         console.log(error);
@@ -143,10 +52,11 @@ function HomePage() {
   }
 
   useEffect(()=> {
+    fetchData()
 
-    let filtered = menuItems
+    // let filtered = menuItems
 
-    if(selectedCategory !== null) filtered = filtered.filter(item => item.category_id === selectedCategory)
+    // if(selectedCategory !== null) filtered = filtered.filter(item => item.category_id === selectedCategory)
   }, [])
 
   if(!localStorage.getItem('access_token')) {

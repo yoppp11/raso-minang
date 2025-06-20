@@ -10,10 +10,14 @@ const menuRouter = express.Router()
 
 menuRouter.get('/menus', MenuController.routeGetMenu)
 menuRouter.post('/menus', upload.single('image'), MenuController.routeCreateMenu)
-menuRouter.put('/menus/:id', upload.single('image'), MenuController.routeUpdateMenu)
+menuRouter.patch('/menus/:id', upload.single('image'), MenuController.routeUpdateMenu)
 menuRouter.get('/categories',  MenuController.routeGetCategories)
+menuRouter.post('/categories',  MenuController.routeAddCategory)
 menuRouter.get('/menus/:id', MenuController.routeGetMenuById)
+menuRouter.get('/categories/:id', MenuController.routeGetCategoryById)
+menuRouter.patch('/categories/:id', MenuController.routeEditCategory)
 menuRouter.delete('/menus/:id', MenuController.routeDeleteMenu)
+menuRouter.delete('/categories/:id',  MenuController.routeDeteleCategory)
 
 
 module.exports = {
