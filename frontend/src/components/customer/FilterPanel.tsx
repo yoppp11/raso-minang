@@ -101,7 +101,6 @@ return (
                 </div>
             </div>
 
-            {/* Availability Filter */}
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Ketersediaan</label>
                 <div className="flex flex-wrap gap-2">
@@ -127,8 +126,7 @@ return (
                     onChange={(value) => updateFilter("sortBy", value as any)}
                     options={[
                         { value: "name", label: "Nama" },
-                        { value: "price", label: "Harga" },
-                        { value: "rating", label: "Rating" }
+                        { value: "price", label: "Harga" }
                     ]}
                     />
                     <Select
@@ -142,7 +140,6 @@ return (
                 </div>
             </div>
 
-            {/* Price Range */}
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                     Rentang Harga: Rp {filters.priceRange[0].toLocaleString()} - Rp {filters.priceRange[1].toLocaleString()}

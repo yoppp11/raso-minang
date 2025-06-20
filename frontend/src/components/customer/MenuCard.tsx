@@ -51,12 +51,12 @@ export default function MenuCard({ item }: { item: MenuItem }){
                     alt="" 
                     className="w-full h-48 object-cover"
                 />
-                <button
+                {/* <button
                     onClick={() => setIsFavorite(!isFavorite)} 
                     className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md"
                 >
                     <Heart className={`h-5 w-5 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}/>
-                </button>
+                </button> */}
                 {!item.is_avaible && (
                     <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
                         <span className="text-white font-black text-lg">Tidak Tersedia</span>
