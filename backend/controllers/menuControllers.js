@@ -1,4 +1,4 @@
-const { Menu_Item, Category } = require("../models");
+const { Menu_Item, Category, Sequelize } = require("../models");
 const cloudinary = require('cloudinary')
 
 const API_KEY = process.env.KEY_CLOUDINARY
@@ -24,6 +24,54 @@ class MenuController {
                     model: Category,
                     attributes: ['id', 'name']
                 }
+            })
+
+            res.status(200).send({ 
+                status: "success",
+                message: "Get All Menu",
+                data: dataMenu
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetMenuRandom(req, res, next){
+        try {
+            const dataMenu = await Menu_Item.findAll({
+                order: [ Sequelize.literal('random()') ],
+                include: {
+                    model: Category,
+                    attributes: ['id', 'name']
+                },
+                limit: 4,
+            })
+
+            res.status(200).send({
+                status: 'success',
+                message: 'Get All Menu Random',
+                data: dataMenu
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetMenuLimit(req, res, next){
+        try {
+            const dataMenu = await Menu_Item.findAll({
+                order: [
+                    ['name', 'ASC']
+                ],
+                include: {
+                    model: Category,
+                    attributes: ['id', 'name']
+                },
+                limit: 8,
             })
 
             res.status(200).send({ 
@@ -68,7 +116,7 @@ class MenuController {
     static async routeCreateMenu(req, res, next){
         try {
             const image = req.file
-            const { name, description, price, categoryId, isAvaible, isSpicy } = req.body
+            const { name, description, price, categoryId, isAvailable, isSpicy } = req.body
             console.log(req.file);
             console.log(req.body);
             console.log(req.params);
@@ -90,7 +138,7 @@ class MenuController {
                 price,
                 category_id: categoryId,
                 image_url: imageUrl.secure_url,
-                is_avaible: isAvaible === 'true',
+                is_avaible: isAvailable === 'true',
                 is_spicy: isSpicy === 'true'
             })
 
@@ -102,7 +150,7 @@ class MenuController {
                     description,
                     price,
                     categoryId,
-                    isAvaible,
+                    isAvailable,
                     isSpicy,
                     imageUrl: imageUrl.secure_url
                 }

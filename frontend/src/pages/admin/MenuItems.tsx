@@ -81,7 +81,7 @@ export default function MenuItemsTable() {
                     showConfirmButton: false
                 })
                 
-                fetchData() // Refresh data
+                fetchData() 
             } catch (error) {
                 console.log(error);
                 Swal.fire({
@@ -185,7 +185,6 @@ export default function MenuItemsTable() {
 
     return (
         <Card className="overflow-hidden">
-            {/* Header */}
             <div className="p-6 border-b border-gray-200 bg-white">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
@@ -212,7 +211,6 @@ export default function MenuItemsTable() {
                     </div>
                 </div>
 
-                {/* Filters */}
                 <div className="flex flex-col sm:flex-row gap-4 mt-6">
                     <div className="flex-1">
                         <Input
@@ -237,7 +235,6 @@ export default function MenuItemsTable() {
                     </div>
                 </div>
 
-                {/* Stats */}
                 <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
                     <div className="flex items-center gap-4 text-sm text-gray-600">
                         <span>Total: {filteredItems.length} menu</span>
@@ -254,7 +251,6 @@ export default function MenuItemsTable() {
                 </div>
             </div>
 
-            {/* Table */}
             <div className="overflow-x-auto">
                 {filteredItems.length === 0 ? (
                     <div className="text-center py-12">

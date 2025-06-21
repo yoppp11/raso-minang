@@ -1,5 +1,5 @@
 import { Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import CategoryFilter from '../../components/customer/CategoryFilter';
 import HeroSection from '../../components/customer/HeroSection';
@@ -24,12 +24,13 @@ function HomePage() {
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([])
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
   const navigate = useNavigate()
+  const menuSectionRef = useRef<HTMLDivElement>(null)
 
   const fetchData = async ()=> {
     try {
         const response = await http({
             method: 'get',
-            url: '/menus',
+            url: '/pub/menus',
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`
             }
@@ -75,13 +76,13 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <HeroSection />
+      <HeroSection scrollToMenu={()=> menuSectionRef.current?.scrollIntoView({ behavior: 'smooth' })}/>
       
-      <section className="container mx-auto px-4 py-12">
+      <section ref={menuSectionRef} className="container mx-auto px-4 py-12">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">Jelajahi Menu Kami</h2>
           
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+          {/* <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
             <CategoryFilter 
               categories={categories} 
               selectedCategory={selectedCategory} 
@@ -111,7 +112,7 @@ function HomePage() {
                 <span>Tidak Pedas</span>
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -223,11 +224,11 @@ function HomePage() {
               <ul className="space-y-2">
                 <li className="text-green-100 flex items-start">
                   <span className="mr-2">📍</span>
-                  <span>Jl. Raya Padang No. 123, Padang, Sumatera Barat</span>
+                  <span>Jl. Pandan No. 210, Kabupaten Madiun, Jawa Timur</span>
                 </li>
                 <li className="text-green-100 flex items-start">
                   <span className="mr-2">📞</span>
-                  <span>+62 812-3456-7890</span>
+                  <span>+62 822-4829-6010</span>
                 </li>
                 <li className="text-green-100 flex items-start">
                   <span className="mr-2">✉️</span>

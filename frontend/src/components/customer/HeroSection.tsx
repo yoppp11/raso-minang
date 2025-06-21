@@ -2,7 +2,7 @@ import { Star, Menu, ShoppingCart } from "lucide-react";
 import bg from "../../assets/bg-hero.jpg";
 import { useNavigate } from "react-router";
 
-export default function HeroSection() {
+export default function HeroSection({ scrollToMenu }: { scrollToMenu?: () => void }) {
     const navigate = useNavigate()
 
   return (
@@ -27,7 +27,7 @@ export default function HeroSection() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <button
-                onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
+                onClick={scrollToMenu}
                 className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 transition-all"
                 >
               <ShoppingCart size={18} /> Pesan Sekarang

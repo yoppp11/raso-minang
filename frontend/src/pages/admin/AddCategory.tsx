@@ -5,9 +5,7 @@ import { http } from "../../helpers/axios"
 import { useNavigate } from "react-router"
 import Card from "../../components/admin/Card"
 import Button from "../../components/admin/Button"
-import Input from "../../components/admin/Input"
 
-// Types
 interface CategoryFormData {
   name: string
   description: string

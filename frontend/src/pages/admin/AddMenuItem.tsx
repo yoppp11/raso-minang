@@ -3,7 +3,7 @@ import { ArrowLeft, Upload, X, Save, AlertCircle } from 'lucide-react'
 import Button from '../../components/admin/Button'
 import { useNavigate } from 'react-router'
 import { http } from '../../helpers/axios'
-import { FormDataInput, FormErrors, ImageUploadProps, InputProps, SelectOption, SelectProps, TextAreaProps, ToggleProps } from '../../types'
+import { Category, FormDataInput, FormErrors, ImageUploadProps, InputProps, SelectOption, SelectProps, TextAreaProps, ToggleProps } from '../../types'
 import Card from '../../components/admin/Card'
 import Swal from 'sweetalert2'
 
@@ -88,6 +88,9 @@ const Select: React.FC<SelectProps> = ({
       }`}
       {...props}
     >
+        <option key={''} value=''>
+          Silahkan Pilih
+        </option>
       {options.map((option, index) => (
         <option key={index} value={option.value}>
           {option.label}
@@ -313,6 +316,12 @@ export default function AddMenuPage(): JSX.Element {
       
     } catch (error) {
       console.error('Error:', error)
+      Swal.fire({
+        title: 'Terjadi Kesalahan',
+        text: 'Gagal menambahkan menu baru. Silakan coba lagi.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      })
 
     } finally {
       setIsSubmitting(false)
@@ -329,7 +338,7 @@ export default function AddMenuPage(): JSX.Element {
         }
       })
       
-      setCategories(response.data.data.map((category: any) => ({
+      setCategories(response.data.data.map((category: Category) => ({
         value: category.id,
         label: category.name
       })))
