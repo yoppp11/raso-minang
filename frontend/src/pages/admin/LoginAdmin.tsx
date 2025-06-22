@@ -188,7 +188,7 @@ export default function AdminLogin() {
               </button>
             </div>
 
-            <div className="flex items-center justify-between text-sm">
+            {/* <div className="flex items-center justify-between text-sm">
               <label className="flex items-center">
                 <input
                   type="checkbox"
@@ -199,7 +199,7 @@ export default function AdminLogin() {
               <a href="#" className="text-green-600 hover:text-green-700 font-medium">
                 Lupa password?
               </a>
-            </div>
+            </div> */}
 
             <Button
               type="submit"
@@ -213,7 +213,7 @@ export default function AdminLogin() {
 
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
-              © 2024 Raso Minang. Admin Dashboard
+              © 2025 Raso Minang. Admin Dashboard
             </p>
           </div>
         </div>
@@ -221,8 +221,8 @@ export default function AdminLogin() {
         <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
           <p className="text-xs text-blue-600">
-            Email: admin@rasominang.com<br />
-            Password: admin123
+            Email: admin1@gmail.com<br />
+            Password: 123123123
           </p>
         </div>
       </div>

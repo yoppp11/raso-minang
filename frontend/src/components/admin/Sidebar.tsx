@@ -1,5 +1,5 @@
 import { ChefHat, Home, LogOut, ShoppingBag, X, Layers } from "lucide-react";
-import { Link, useLocation } from "react-router"; 
+import { Link, useLocation, useNavigate } from "react-router"; 
 import React from "react";
 
 export default function Sidebar({
@@ -10,6 +10,7 @@ export default function Sidebar({
   onClose: () => void;
 }) {
   const location = useLocation(); 
+  const navigate = useNavigate();
 
   const menuItems = [
     { icon: Home, label: "Dashboard", ref: "/admin/dashboard" },
@@ -67,7 +68,13 @@ export default function Sidebar({
         </nav>
 
         <div className="absolute bottom-6 left-0 right-0 px-3">
-          <button className="flex items-center w-full px-3 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors">
+          <button
+            onClick={()=> {
+              localStorage.removeItem("access_token");
+              navigate('/admin/login');
+            }} 
+            className="flex items-center w-full px-3 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
+          >
             <LogOut className="h-5 w-5 mr-3" />
             Keluar
           </button>

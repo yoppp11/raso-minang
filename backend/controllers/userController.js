@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const { comparePassword } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt')
 const {User} = require('../models/index')
@@ -70,6 +71,25 @@ class UserController {
             })
 
             return res.status(200).send({ role: response.role })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetUsers(req, res, next){
+        try {
+            const response = await User.findAll({
+                where: {
+                    role: 'user'
+                },
+                attributes: { exclude: ['password'] }
+            })
+
+            return res.status(200).send({
+                users: response.length
+            })
 
         } catch (error) {
             console.log(error);

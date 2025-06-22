@@ -1,4 +1,5 @@
 const { Cart_Item, Cart, Menu_Item, Order, Order_Item, User, sequelize } = require('../models/')
+const { Op } = require('sequelize');
 const midtransClient = require('midtrans-client');
 const { randomUUID } = require('crypto');
 const { http } = require('../helpers/axios');
@@ -238,6 +239,46 @@ class OrderController {
         }
     }
 
+    static async routeGetOrderById(req, res, next){
+        try {
+            const { id } = req.params
+            const userId = req.user.id
+
+            const order = await Order.findOne({
+                where: {
+                    id: +id
+                },
+                attributes: { exclude: ['updatedAt'] },
+                include: [
+                    {
+                        model: Order_Item,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] },
+                        include: {
+                            model: Menu_Item,
+                            attributes: { exclude: ['createdAt', 'updatedAt'] }
+                        }
+                    },
+                    {
+                        model: User,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }
+                    }
+                ]
+            })
+            if(!order) throw {
+                name: "NotFound",
+                message: "Order Not Found"
+            }
+            return res.status(200).send({
+                message: 'Order retrieved successfully',
+                order
+            })
+
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     static async routeGetAllOrders(req, res, next){
         try {
             const orders = await Order.findAll({
@@ -262,6 +303,74 @@ class OrderController {
             return res.status(200).send({
                 message: 'Orders retrieved successfully',
                 orders
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetOrdersToday(req, res, next){
+        try {
+            const today = new Date()
+            const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+            const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+
+            const orders = await Order.findAll({
+                where: {
+                    createdAt: {
+                        [Op.gte]: startOfDay,
+                        [Op.lt]: endOfDay
+                    }
+                },
+                attributes: { exclude: ['updatedAt'] },
+                include: [
+                    {
+                        model: Order_Item,
+                        attributes: { exclude: ['createdAt', 'updatedAt'] },
+                        include: {
+                            model: Menu_Item,
+                            attributes: { exclude: ['createdAt', 'updatedAt'] }
+                        }
+                    },
+                    {
+                        model: User,
+                        attributes: { exclude: ['createdAt', 'updatedAt', 'password'] }
+                    }
+                ],
+                order: [['id', 'DESC']]
+            })
+
+            return res.status(200).send({
+                message: 'Orders retrieved successfully',
+                orders
+            })
+            
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
+
+    static async routeGetIncomeThisMonth(req, res, next){
+        try {
+            const today = new Date()
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+            const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+
+            const income = await Order.sum('total_amount', {
+                where: {
+                    createdAt: {
+                        [Op.gte]: startOfMonth,
+                        [Op.lt]: endOfMonth
+                    }
+                }
+            })
+
+            return res.status(200).send({
+                message: 'Income retrieved successfully',
+                income
             })
             
         } catch (error) {

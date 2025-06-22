@@ -6,13 +6,17 @@ import MenuItemsTable from "../../components/admin/MenuItemsTable"
 import Sidebar from "../../components/admin/Sidebar"
 import StatsCard from "../../components/admin/StatsCard"
 import { http } from "../../helpers/axios"
-import { Order } from "../../types"
+import { MenuItem, Order } from "../../types"
 import OrdersTable from "./Orders"
 
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [orders, setOrders] = useState<Order[]>([]) 
+  const [menus, setMenus] = useState<MenuItem[]>([]) 
+  const [todayOrders, setTodayOrders] = useState<Order[]>([]) 
+  const [income, setIncome] = useState<number>(0)
+  const [users, setUsers] = useState<number>(0)
 
   const fetchOrder = async () => {
     try {
@@ -37,8 +41,86 @@ export default function AdminDashboard() {
     }
   }
 
+  const fetchMenu = async () => {
+    try {
+      const response  = await http({
+        method: 'get',
+        url: '/menus',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+
+      setMenus(response.data.data)
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const fetchOrdersToday = async () => {
+    try {
+      const response = await http({
+        method: 'get',
+        url: '/orders/today',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+
+      setTodayOrders(response.data.orders)
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const fetchIncomeThisMonth = async () => {
+    try {
+      const response = await http({
+        method: 'get',
+        url: '/orders/income',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+
+      setIncome(response.data.income)
+      console.log(response.data.income);
+      
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  const fetchUsers = async () => {
+    try {
+      const response = await http({
+        method: 'get',
+        url: '/users',
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+        }
+      })
+
+      setUsers(response.data.users)
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
   useEffect(()=> {
     fetchOrder()
+    fetchMenu()
+    fetchOrdersToday()
+    fetchIncomeThisMonth()
+    fetchUsers()
   }, [])
   
   return (
@@ -76,29 +158,29 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatsCard
               title="Total Menu"
-              value="24"
-              change="+2 item baru"
+              value={menus.length.toString()}
+              // change="+2 item baru"
               icon={ChefHat}
               color="green"
             />
             <StatsCard
               title="Pesanan Hari Ini"
-              value="45"
-              change="+12% dari kemarin"
+              value={todayOrders.length.toString()}
+              // change="+12% dari kemarin"
               icon={ShoppingBag}
               color="blue"
             />
             <StatsCard
               title="Pendapatan"
-              value="Rp 2.4M"
-              change="+8% dari bulan lalu"
+              value={`Rp ${income.toLocaleString('id-ID')}`}
+              // change="+8% dari bulan lalu"
               icon={DollarSign}
               color="yellow"
             />
             <StatsCard
               title="Pelanggan Aktif"
-              value="156"
-              change="+5 pelanggan baru"
+              value={users.toString()}
+              // change="+5 pelanggan baru"
               icon={Users}
               color="red"
             />

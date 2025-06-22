@@ -19,6 +19,8 @@ import EditCategoryPage from './pages/admin/EditCategory.tsx'
 import AdminParent from './pages/admin/AdminParent.tsx'
 import OrdersTable from './pages/admin/Orders.tsx'
 import CategoriesTable from './components/admin/CategoryTable.tsx'
+import OrderDetail from './pages/admin/OrderDetail.tsx'
+import MenuDetailPage from './pages/admin/MenuDetail.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -43,6 +45,8 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/admin/add-category" element={<AddCategoryPage />} />
       <Route path="/admin/edit-menu/:id" element={<EditMenuPage />} />
       <Route path="/admin/edit-category/:id" element={<EditCategoryPage />} />
+      <Route path="/admin/orders/:id" element={<OrderDetail />} />
+      <Route path="/admin/menus/:id" element={<MenuDetailPage />} />
     </Routes>
   </BrowserRouter>
   // <StrictMode>

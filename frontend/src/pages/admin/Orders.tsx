@@ -249,7 +249,6 @@ export default function OrdersTable() {
         </div>
       </div>
       
-      {/* Desktop Table */}
       <div className="hidden lg:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50">

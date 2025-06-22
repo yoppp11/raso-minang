@@ -134,7 +134,10 @@ export default function MenuItemsTable() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex items-center justify-end gap-2">
-                      <Button variant="ghost" size="sm">
+                      <Button
+                        onClick={() => navigate(`/admin/menus/${item.id}`)} 
+                        variant="ghost" size="sm"
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Button
