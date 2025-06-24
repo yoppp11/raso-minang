@@ -172,7 +172,7 @@ export default function AdminDashboard() {
             />
             <StatsCard
               title="Pendapatan"
-              value={`Rp ${income.toLocaleString('id-ID')}` || "Rp 0"}
+              value={`Rp ${income?.toLocaleString('id-ID')}` || "Rp 0"}
               // change="+8% dari bulan lalu"
               icon={DollarSign}
               color="yellow"
