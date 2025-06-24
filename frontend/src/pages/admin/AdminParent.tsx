@@ -171,7 +171,7 @@ export default function AdminParent() {
               />
               <StatsCard
                 title="Pendapatan"
-                value={`Rp ${income.toLocaleString('id-ID')}`}
+                value={`Rp ${income?.toLocaleString('id-ID')}` || "Rp 0"}
                 // change="+8% dari bulan lalu"
                 icon={DollarSign}
                 color="yellow"
