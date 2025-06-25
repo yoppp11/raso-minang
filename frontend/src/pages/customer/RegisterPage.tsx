@@ -71,17 +71,17 @@ export default function RegisterPage() {
         }
     }
 
-    // if(localStorage.getItem('access_token')) {
-    //     Swal.fire({
-    //         icon: 'info',
-    //         title: 'Sudah Masuk',
-    //         text: 'Anda sudah masuk. Silakan keluar terlebih dahulu sebelum mendaftar akun baru.',
-    //         confirmButtonText: 'OK'
-    //     }).then(() => {
-    //         navigate('/')
-    //     })
-    //     return null
-    // }
+    if(localStorage.getItem('access_token')) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Sudah Masuk',
+            text: 'Anda sudah masuk. Silakan keluar terlebih dahulu sebelum mendaftar akun baru.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            navigate('/')
+        })
+        return null
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
