@@ -6,7 +6,7 @@ export default function Footer(){
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-2xl font-bold mb-4">Raso Minang</h3>
+              <h3 className="text-2xl font-bold mb-4">Rasa Minang</h3>
               <p className="text-green-100 mb-6">
                 Restoran dengan menu masakan Padang autentik yang menyajikan cita rasa asli Minangkabau.
               </p>
@@ -61,14 +61,14 @@ export default function Footer(){
                 </li>
                 <li className="text-green-100 flex items-start">
                   <span className="mr-2">✉️</span>
-                  <span>info@rasominang.id</span>
+                  <span>info@rasaminang.id</span>
                 </li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-green-800 mt-12 pt-6 text-center">
-            <p className="text-green-100">© 2025 Raso Minang. Hak Cipta Dilindungi.</p>
+            <p className="text-green-100">© 2025 Rasa Minang. Hak Cipta Dilindungi.</p>
           </div>
         </div>
       </footer>

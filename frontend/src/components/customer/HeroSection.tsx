@@ -19,7 +19,7 @@ export default function HeroSection({ scrollToMenu }: { scrollToMenu?: () => voi
       <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 flex flex-col md:flex-row items-center justify-between gap-12">
         <div className="max-w-2xl text-center md:text-left">
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Masakan Padang <span className="text-yellow-400">Raso Minang</span>
+            Masakan Padang <span className="text-yellow-400">Rasa Minang</span>
           </h1>
           <p className="text-lg md:text-xl text-green-100 mb-8">
             Nikmati cita rasa autentik dengan bahan pilihan dan resep warisan turun-temurun yang tak lekang oleh waktu.
