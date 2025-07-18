@@ -274,7 +274,7 @@ const OrderHistory: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Riwayat Pesanan</h1>
-          <p className="text-gray-600">Lihat semua pesanan Anda di Raso Minang</p>
+          <p className="text-gray-600">Lihat semua pesanan Anda di Rasa Minang</p>
         </div>
 
         {orders.length === 0 ? (

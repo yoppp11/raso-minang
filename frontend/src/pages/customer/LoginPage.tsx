@@ -81,7 +81,7 @@ export default function LoginPage(){
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-green-700 mb-2">Raso Minang</h1>
+                    <h1 className="text-3xl font-bold text-green-700 mb-2">Rasa Minang</h1>
                     <p className="text-gray-600">Masakan Padang Asli</p>
                 </div>
                 
@@ -89,7 +89,7 @@ export default function LoginPage(){
                     <div className="mb-6 text-center">
                         <h2 className="text-xl font-semibold text-gray-800">Masuk ke Akun Anda</h2>
                         <p className="mt-2 text-sm text-gray-600">
-                        Nikmati kelezatan masakan Padang dari Raso Minang
+                        Nikmati kelezatan masakan Padang dari Rasa Minang
                         </p>
                     </div>
                     
@@ -197,7 +197,7 @@ export default function LoginPage(){
             </div>
             
                 <div className="mt-8 text-center text-xs text-gray-500">
-                    <p>© 2025 Raso Minang. Seluruh hak cipta dilindungi.</p>
+                    <p>© 2025 Rasa Minang. Seluruh hak cipta dilindungi.</p>
                 </div>
         </div>
     )

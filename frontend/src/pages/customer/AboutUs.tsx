@@ -129,7 +129,7 @@ const AboutUsPage = () => {
         <div className="relative container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Tentang Raso Minang
+              Tentang Rasa Minang
             </h1>
             <p className="text-lg md:text-xl leading-relaxed mb-8">
               Perjalanan cita rasa autentik masakan Padang yang telah menghangatkan hati 
@@ -160,17 +160,17 @@ const AboutUsPage = () => {
                 />
                 <div className="space-y-6 text-gray-700 leading-relaxed">
                   <p>
-                    Raso Minang dimulai dari dapur sederhana Danang Hidayat di tahun 2022. 
+                    Rasa Minang dimulai dari dapur sederhana Danang Hidayat di tahun 2023. 
                     Dengan resep warisan nenek yang telah turun-temurun, beliau mulai menyajikan 
                     masakan Padang autentik untuk keluarga dan tetangga.
                   </p>
                   <p>
-                    Cita rasa yang khas dan kehangatan pelayanan membuat Raso Minang cepat 
+                    Cita rasa yang khas dan kehangatan pelayanan membuat Rasa Minang cepat 
                     dikenal. Dari mulut ke mulut, reputasi kami tumbuh hingga akhirnya membuka 
                     restoran pertama di Kabupaten Madiun.
                   </p>
                   <p>
-                    Kini, setelah 30 tahun perjalanan, Raso Minang telah hadir di 2 kota dengan 
+                    Kini, setelah 30 tahun perjalanan, Rasa Minang telah hadir di 2 kota dengan 
                     komitmen yang sama: menyajikan masakan Padang terbaik dengan cinta dan 
                     ketulusan hati.
                   </p>

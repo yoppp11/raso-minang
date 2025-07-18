@@ -42,7 +42,7 @@ export default function Navbar() {
                             <MenuIcon />
                         </button>
                         <Link to="/" className="text-2xl font-bold text-green-700 hover:text-green-800 transition-colors">
-                            Raso Minang
+                            Rasa Minang
                         </Link>
                     </div>
 

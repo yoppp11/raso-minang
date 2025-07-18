@@ -35,7 +35,7 @@ export default function Sidebar({
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
-            <h1 className="text-xl font-bold text-green-700">Raso Minang</h1>
+            <h1 className="text-xl font-bold text-green-700">Rasa Minang</h1>
             <p className="text-sm text-gray-600">Admin Panel</p>
           </div>
           <button
