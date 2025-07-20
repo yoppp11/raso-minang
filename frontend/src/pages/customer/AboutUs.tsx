@@ -1,15 +1,14 @@
 // pages/AboutUsPage.tsx
 import { Award, Clock, Heart, MapPin, Users, Utensils } from 'lucide-react';
-import Navbar from '../../components/customer/Navbar';
-import SectionTitle from '../../components/customer/SectionTitle';
-import FeatureCard from '../../components/customer/FeatureCard';
-import StatCard from '../../components/customer/StatCard';
-import TeamMember from '../../components/customer/TeamMember';
-import Button from '../../components/customer/Button';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
-import Footer from '../../components/customer/Footer';
 import bg from '../../assets/about-us.jpg';
+import Button from '../../components/customer/Button';
+import FeatureCard from '../../components/customer/FeatureCard';
+import Footer from '../../components/customer/Footer';
+import Navbar from '../../components/customer/Navbar';
+import SectionTitle from '../../components/customer/SectionTitle';
+import TeamMember from '../../components/customer/TeamMember';
 
 interface AboutFeature {
   id: number;
@@ -55,7 +54,7 @@ const AboutUsPage = () => {
     {
       id: 3,
       title: "Pelayanan Terpercaya",
-      description: "Melayani pelanggan dengan sepenuh hati sejak 2022, memberikan pengalaman kuliner yang tak terlupakan.",
+      description: "Melayani pelanggan dengan sepenuh hati sejak 2023, memberikan pengalaman kuliner yang tak terlupakan.",
       icon: Users,
       color: "bg-blue-100 text-blue-600"
     },
@@ -142,7 +141,7 @@ const AboutUsPage = () => {
               </div>
               <div className="flex items-center text-green-100">
                 <Clock className="h-5 w-5 mr-2" />
-                <span>Sejak 2022</span>
+                <span>Sejak 2023</span>
               </div>
             </div>
           </div>

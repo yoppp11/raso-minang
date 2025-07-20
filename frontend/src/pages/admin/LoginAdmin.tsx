@@ -145,7 +145,7 @@ export default function AdminLogin() {
               <ChefHat className="h-8 w-8 text-green-600" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Login</h1>
-            <p className="text-gray-600">Selamat datang kembali di Raso Minang</p>
+            <p className="text-gray-600">Selamat datang kembali di Rasa Minang</p>
           </div>
 
           {errors.general && (
@@ -213,7 +213,7 @@ export default function AdminLogin() {
 
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-600">
-              © 2025 Raso Minang. Admin Dashboard
+              © 2025 Rasa Minang. Admin Dashboard
             </p>
           </div>
         </div>

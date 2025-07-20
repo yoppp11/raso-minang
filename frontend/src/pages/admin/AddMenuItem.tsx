@@ -365,7 +365,7 @@ export default function AddMenuPage(): JSX.Element {
               </Button>
               <div>
                 <h1 className="text-xl font-semibold text-gray-900">Tambah Menu Baru</h1>
-                <p className="text-sm text-gray-600">Tambahkan menu baru ke dalam daftar menu Raso Minang</p>
+                <p className="text-sm text-gray-600">Tambahkan menu baru ke dalam daftar menu Rasa Minang</p>
               </div>
             </div>
             

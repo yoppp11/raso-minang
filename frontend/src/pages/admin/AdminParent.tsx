@@ -138,7 +138,7 @@ export default function AdminParent() {
                 </button>
                 <div className="ml-4 lg:ml-0">
                   <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-                  <p className="text-sm text-gray-600">Selamat datang di panel admin Raso Minang</p>
+                  <p className="text-sm text-gray-600">Selamat datang di panel admin Rasa Minang</p>
                 </div>
               </div>
               
