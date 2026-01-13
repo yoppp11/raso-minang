@@ -220,6 +220,12 @@ export interface Order {
     createdAt: string;
     updatedAt: string;
     Order_Items: OrderItem[];
+    User?: {
+        id: number;
+        username: string;
+        email: string;
+        full_name?: string;
+    };
   }
   
 export interface ApiResponse {
@@ -236,3 +242,69 @@ export interface ApiResponse {
     sortBy: 'name' | 'price' | 'rating';
     sortOrder: 'asc' | 'desc';
   }
+
+// Chat types
+export interface Conversation {
+    id: number;
+    user_id: number;
+    status: 'active' | 'closed';
+    last_message: string | null;
+    last_message_at: string | null;
+    createdAt: string;
+    updatedAt: string;
+    User?: User;
+    Messages?: Message[];
+    unreadCount?: number;
+}
+
+export interface Message {
+    id: number;
+    conversation_id: number;
+    sender_id: number;
+    sender_role: 'user' | 'admin' | 'superadmin';
+    content: string;
+    is_read: boolean;
+    createdAt: string;
+    updatedAt: string;
+    Sender?: {
+        id: number;
+        username: string;
+        full_name: string;
+        role: string;
+    };
+}
+
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    full_name?: string;
+    phone_number?: string;
+    address?: string;
+    role: 'user' | 'admin' | 'superadmin';
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+// Super Admin Stats
+export interface DashboardStats {
+    totalUsers: number;
+    totalAdmins: number;
+    totalOrders: number;
+    totalRevenue: number;
+    totalMenuItems: number;
+    totalCategories: number;
+    ordersThisMonth: number;
+    revenueThisMonth: number;
+    ordersToday: number;
+    pendingOrders: number;
+    unreadMessages: number;
+    recentOrders: Order[];
+}
+
+export interface PaginationData {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+}

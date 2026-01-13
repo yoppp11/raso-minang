@@ -20,6 +20,13 @@ import OrdersTable from './pages/admin/Orders.tsx'
 import CategoriesTable from './components/admin/CategoryTable.tsx'
 import OrderDetail from './pages/admin/OrderDetail.tsx'
 import MenuDetailPage from './pages/admin/MenuDetail.tsx'
+// Super Admin imports
+import SuperAdminLogin from './pages/superadmin/SuperAdminLogin.tsx'
+import SuperAdminParent from './pages/superadmin/SuperAdminParent.tsx'
+import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.tsx'
+import SuperAdminUsers from './pages/superadmin/SuperAdminUsers.tsx'
+import SuperAdminOrders from './pages/superadmin/SuperAdminOrders.tsx'
+import SuperAdminChat from './pages/superadmin/SuperAdminChat.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -46,6 +53,18 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/admin/edit-category/:id" element={<EditCategoryPage />} />
       <Route path="/admin/orders/:id" element={<OrderDetail />} />
       <Route path="/admin/menus/:id" element={<MenuDetailPage />} />
+
+      {/* Super Admin Routes */}
+      <Route path="/superadmin/login" element={<SuperAdminLogin />} />
+      <Route path="/superadmin" element={<SuperAdminParent />}>
+        <Route path="dashboard" element={<SuperAdminDashboard />} />
+        <Route path="users" element={<SuperAdminUsers />} />
+        <Route path="menu" element={<MenuItemsTable />} />
+        <Route path="categories" element={<CategoriesTable />} />
+        <Route path="orders" element={<SuperAdminOrders />} />
+        <Route path="chat" element={<SuperAdminChat />} />
+        <Route path="stats" element={<SuperAdminDashboard />} />
+      </Route>
     </Routes>
   </BrowserRouter>
   // <StrictMode>

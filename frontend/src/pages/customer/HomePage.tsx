@@ -5,6 +5,7 @@ import CategoryFilter from '../../components/customer/CategoryFilter';
 import HeroSection from '../../components/customer/HeroSection';
 import MenuCard from '../../components/customer/MenuCard';
 import Navbar from '../../components/customer/Navbar';
+import ChatWidget from '../../components/customer/ChatWidget';
 import { http } from '../../helpers/axios';
 import { Category, MenuItem } from '../../types';
 import '../../App.css';
@@ -175,6 +176,7 @@ function HomePage() {
       </section>
       
       <Footer />
+      <ChatWidget isLoggedIn={!!localStorage.getItem('access_token')} />
     </div>
   )
 }

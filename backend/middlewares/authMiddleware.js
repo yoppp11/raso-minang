@@ -34,6 +34,82 @@ async function authMiddleware(req, res, next){
     }
 }
 
+async function superAdminMiddleware(req, res, next){
+    try {
+        const { authorization } = req.headers
+        if(!authorization) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const [type, token] = authorization.split(' ')
+        if(type !== 'Bearer' || !token) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const user = verifyToken(token)
+        if(!user) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const isValidUser = await User.findOne({
+            where: {
+                email: user.email
+            }
+        })
+        if(!isValidUser) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        if(isValidUser.role !== 'superadmin') {
+            throw { name: 'Forbidden', message: 'Access denied. Super admin only.' }
+        }
+
+        req.user = {
+            id: isValidUser.id,
+            email: isValidUser.email,
+            name: isValidUser.full_name,
+            role: isValidUser.role
+        }
+
+        next()
+
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+}
+
+async function adminMiddleware(req, res, next){
+    try {
+        const { authorization } = req.headers
+        if(!authorization) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const [type, token] = authorization.split(' ')
+        if(type !== 'Bearer' || !token) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const user = verifyToken(token)
+        if(!user) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        const isValidUser = await User.findOne({
+            where: {
+                email: user.email
+            }
+        })
+        if(!isValidUser) throw { name: 'Unauthorized', message: 'Invalid token' }
+
+        if(!['admin', 'superadmin'].includes(isValidUser.role)) {
+            throw { name: 'Forbidden', message: 'Access denied. Admin only.' }
+        }
+
+        req.user = {
+            id: isValidUser.id,
+            email: isValidUser.email,
+            name: isValidUser.full_name,
+            role: isValidUser.role
+        }
+
+        next()
+
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+}
+
 module.exports = {
-    authMiddleware
+    authMiddleware,
+    superAdminMiddleware,
+    adminMiddleware
 }

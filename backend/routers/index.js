@@ -4,6 +4,8 @@ const { cartRouter } = require('./cartRouter')
 const { authMiddleware } = require('../middlewares/authMiddleware')
 const { orderRouter } = require('./orderRouter')
 const { menuRouter } = require('./menuRouter')
+const { chatRouter } = require('./chatRouter')
+const { superAdminRouter } = require('./superAdminRouter')
 const router = express.Router()
 
 router.get('/', (req, res) => {
@@ -18,6 +20,8 @@ router.use(authMiddleware)
 router.use('/', cartRouter)
 router.use('/', orderRouter)
 router.use('/', menuRouter)
+router.use('/chat', chatRouter)
+router.use('/superadmin', superAdminRouter)
 
 
 module.exports = {

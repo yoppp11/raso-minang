@@ -2,7 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "raso-minang-db",
+    "database": "raso_minang",
     "host": "localhost",
     "dialect": "postgres"
   },

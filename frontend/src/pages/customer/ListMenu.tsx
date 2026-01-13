@@ -7,6 +7,7 @@ import MenuCard from "../../components/customer/MenuCard";
 import { MenuStats } from "../../components/customer/MenuStats";
 import Navbar from "../../components/customer/Navbar.tsx";
 import { SearchInput } from "../../components/customer/SearchInput.tsx";
+import ChatWidget from "../../components/customer/ChatWidget.tsx";
 import { http } from "../../helpers/axios.ts";
 import { Category, FilterOptions, MenuItem } from "../../types";
   
@@ -231,6 +232,7 @@ import { Category, FilterOptions, MenuItem } from "../../types";
             </div>
           </div>
         </div>
+        <ChatWidget isLoggedIn={!!localStorage.getItem('access_token')} />
       </div>
     );
   }
