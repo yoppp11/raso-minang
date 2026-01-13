@@ -1,11 +1,11 @@
 [
     {
-        "username": "admin",
+        "username": "superadmin",
         "password": "$2b$10$6bA/JySpncyI9oljbIR15ey/mIM3gufzdrFkLos8lemlyyPi1M7FK",
-        "role": "admin",
-        "email": "admin1@gmail.com",
-        "full_name": "Admin User",
-        "address": "Jl. Admin No. 1, Padang",
+        "role": "superadmin",
+        "email": "superadmin@rasominang.id",
+        "full_name": "Super Administrator",
+        "address": "Jl. Raya Padang No. 123, Padang",
         "phone_number": "081234567890",
         "createdAt": "2025-04-29T00:00:00Z",
         "updatedAt": "2025-04-29T00:00:00Z"

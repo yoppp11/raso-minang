@@ -1,4 +1,4 @@
-import { ChefHat, Home, LogOut, ShoppingBag, X, Layers, Users, MessageSquare, BarChart3 } from "lucide-react";
+import { ChefHat, Home, LogOut, ShoppingBag, X, Layers, Users, MessageSquare } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router"; 
 
 interface SuperAdminSidebarProps {
@@ -22,7 +22,6 @@ export default function SuperAdminSidebar({
     { icon: Layers, label: "Categories", ref: "/superadmin/categories" },
     { icon: ShoppingBag, label: "Orders", ref: "/superadmin/orders" },
     { icon: MessageSquare, label: "Chat", ref: "/superadmin/chat", badge: unreadMessages },
-    { icon: BarChart3, label: "Statistics", ref: "/superadmin/stats" },
   ];
 
   return (
@@ -81,27 +80,21 @@ export default function SuperAdminSidebar({
         </nav>
 
         <div className="absolute bottom-6 left-0 right-0 px-3">
-          <div className="border-t border-gray-200 pt-4 mb-4">
-            <Link
-              to="/admin/dashboard"
-              className="flex items-center px-3 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
+          <div className="border-t border-gray-200 pt-4">
+            <button
+              onClick={()=> {
+                localStorage.removeItem("access_token");
+                navigate('/superadmin/login');
+              }} 
+              className="flex items-center w-full px-3 py-3 text-gray-600 hover:bg-red-50 hover:text-red-700 rounded-lg transition-colors"
             >
-              <BarChart3 className="h-5 w-5 mr-3" />
-              Switch to Admin
-            </Link>
+              <LogOut className="h-5 w-5 mr-3" />
+              Keluar
+            </button>
           </div>
-          <button
-            onClick={()=> {
-              localStorage.removeItem("access_token");
-              navigate('/superadmin/login');
-            }} 
-            className="flex items-center w-full px-3 py-3 text-gray-600 hover:bg-red-50 hover:text-red-700 rounded-lg transition-colors"
-          >
-            <LogOut className="h-5 w-5 mr-3" />
-            Keluar
-          </button>
         </div>
       </div>
     </>
   );
 }
+

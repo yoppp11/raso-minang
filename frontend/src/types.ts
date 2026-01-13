@@ -200,6 +200,7 @@ export interface OrderItem {
     order_id: number;
     menu_item_id: number;
     quantity: number;
+    price: number;
     unit_price: number;
     subtotal: number;
     special_instructions: string;
@@ -216,6 +217,7 @@ export interface Order {
     total_amount: number;
     delivery_address: string;
     payment_status: 'Menunggu' | 'Lunas' | 'Gagal' | 'Dibatalkan';
+    payment_method?: string;
     notes: string;
     createdAt: string;
     updatedAt: string;
@@ -225,6 +227,8 @@ export interface Order {
         username: string;
         email: string;
         full_name?: string;
+        phone_number?: string;
+        address?: string;
     };
   }
   

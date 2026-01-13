@@ -1,10 +1,6 @@
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import AddMenuPage from './pages/admin/AddMenuItem.tsx'
-import AdminDashboard from './pages/admin/DashboardAdmin.tsx'
-import EditMenuPage from './pages/admin/EditMenuItem.tsx'
-import AdminLogin from './pages/admin/LoginAdmin.tsx'
-import MenuItemsTable from './components/admin/MenuItemsTable.tsx'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router'
+// Customer pages
 import AboutUsPage from './pages/customer/AboutUs.tsx'
 import CartPage from './pages/customer/CartPage.tsx'
 import DetailPage from './pages/customer/DetailPage.tsx'
@@ -13,24 +9,27 @@ import HomePage from './pages/customer/HomePage.tsx'
 import ListMenu from './pages/customer/ListMenu.tsx'
 import LoginPage from './pages/customer/LoginPage.tsx'
 import RegisterPage from './pages/customer/RegisterPage.tsx'
-import AddCategoryPage from './pages/admin/AddCategory.tsx'
-import EditCategoryPage from './pages/admin/EditCategory.tsx'
-import AdminParent from './pages/admin/AdminParent.tsx'
-import OrdersTable from './pages/admin/Orders.tsx'
-import CategoriesTable from './components/admin/CategoryTable.tsx'
-import OrderDetail from './pages/admin/OrderDetail.tsx'
-import MenuDetailPage from './pages/admin/MenuDetail.tsx'
-// Super Admin imports
+import CustomerChat from './pages/customer/CustomerChat.tsx'
+// Super Admin imports (consolidated admin)
 import SuperAdminLogin from './pages/superadmin/SuperAdminLogin.tsx'
 import SuperAdminParent from './pages/superadmin/SuperAdminParent.tsx'
 import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard.tsx'
 import SuperAdminUsers from './pages/superadmin/SuperAdminUsers.tsx'
 import SuperAdminOrders from './pages/superadmin/SuperAdminOrders.tsx'
 import SuperAdminChat from './pages/superadmin/SuperAdminChat.tsx'
+import SuperAdminMenuItems from './pages/superadmin/SuperAdminMenuItems.tsx'
+import SuperAdminCategories from './pages/superadmin/SuperAdminCategories.tsx'
+import SuperAdminAddMenu from './pages/superadmin/SuperAdminAddMenu.tsx'
+import SuperAdminEditMenu from './pages/superadmin/SuperAdminEditMenu.tsx'
+import SuperAdminAddCategory from './pages/superadmin/SuperAdminAddCategory.tsx'
+import SuperAdminEditCategory from './pages/superadmin/SuperAdminEditCategory.tsx'
+import SuperAdminOrderDetail from './pages/superadmin/SuperAdminOrderDetail.tsx'
+import SuperAdminMenuDetail from './pages/superadmin/SuperAdminMenuDetail.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Routes>
+      {/* Customer Routes */}
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
@@ -38,36 +37,29 @@ createRoot(document.getElementById('root')!).render(
       <Route path="/about-us" element={<AboutUsPage />} />
       <Route path="/my-order" element={<OrderHistory />} />
       <Route path="/menu" element={<ListMenu />} />
+      <Route path="/chat" element={<CustomerChat />} />
       <Route path="/:id" element={<DetailPage />} />
-      <Route path='/admin' element={<AdminParent />}>
-        <Route path="list-menu" element={<MenuItemsTable />} />
-        <Route path="list-order" element={<OrdersTable />} />
-        <Route path="category" element={<CategoriesTable />} />
-      </Route>
 
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      <Route path="/admin/add-menu" element={<AddMenuPage />} />
-      <Route path="/admin/add-category" element={<AddCategoryPage />} />
-      <Route path="/admin/edit-menu/:id" element={<EditMenuPage />} />
-      <Route path="/admin/edit-category/:id" element={<EditCategoryPage />} />
-      <Route path="/admin/orders/:id" element={<OrderDetail />} />
-      <Route path="/admin/menus/:id" element={<MenuDetailPage />} />
+      {/* Redirect old admin routes to superadmin */}
+      <Route path="/admin/*" element={<Navigate to="/superadmin/dashboard" replace />} />
 
-      {/* Super Admin Routes */}
+      {/* Super Admin Routes (consolidated admin) */}
       <Route path="/superadmin/login" element={<SuperAdminLogin />} />
       <Route path="/superadmin" element={<SuperAdminParent />}>
+        <Route index element={<Navigate to="/superadmin/dashboard" replace />} />
         <Route path="dashboard" element={<SuperAdminDashboard />} />
         <Route path="users" element={<SuperAdminUsers />} />
-        <Route path="menu" element={<MenuItemsTable />} />
-        <Route path="categories" element={<CategoriesTable />} />
+        <Route path="menu" element={<SuperAdminMenuItems />} />
+        <Route path="menu/add" element={<SuperAdminAddMenu />} />
+        <Route path="menu/edit/:id" element={<SuperAdminEditMenu />} />
+        <Route path="menu/:id" element={<SuperAdminMenuDetail />} />
+        <Route path="categories" element={<SuperAdminCategories />} />
+        <Route path="categories/add" element={<SuperAdminAddCategory />} />
+        <Route path="categories/edit/:id" element={<SuperAdminEditCategory />} />
         <Route path="orders" element={<SuperAdminOrders />} />
+        <Route path="orders/:id" element={<SuperAdminOrderDetail />} />
         <Route path="chat" element={<SuperAdminChat />} />
-        <Route path="stats" element={<SuperAdminDashboard />} />
       </Route>
     </Routes>
   </BrowserRouter>
-  // <StrictMode>
-  //   <App />
-  // </StrictMode>,
 )
