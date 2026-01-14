@@ -18,9 +18,9 @@ module.exports = {
     console.log(menuItems);
     const users = require('../data/users.json')
 
-   await queryInterface.bulkInsert('Categories', categories, {})
-   await queryInterface.bulkInsert('Menu_Items', menuItems, {})
-   await queryInterface.bulkInsert('Users', users, {})
+   await queryInterface.bulkInsert('Categories', categories, { ignoreDuplicates: true })
+   await queryInterface.bulkInsert('Menu_Items', menuItems, { ignoreDuplicates: true })
+   await queryInterface.bulkInsert('Users', users, { ignoreDuplicates: true })
   },
 
   async down (queryInterface, Sequelize) {
