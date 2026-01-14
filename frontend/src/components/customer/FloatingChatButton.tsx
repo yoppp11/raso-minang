@@ -1,4 +1,4 @@
-import { MessageCircle, X } from "lucide-react"
+import { MessageCircle } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router"
 

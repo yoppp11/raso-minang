@@ -1,30 +1,19 @@
 import { Star } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
-import CategoryFilter from '../../components/customer/CategoryFilter';
 import HeroSection from '../../components/customer/HeroSection';
 import MenuCard from '../../components/customer/MenuCard';
 import Navbar from '../../components/customer/Navbar';
 import ChatWidget from '../../components/customer/ChatWidget';
 import { http } from '../../helpers/axios';
-import { Category, MenuItem } from '../../types';
+import { MenuItem } from '../../types';
 import '../../App.css';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import Footer from '../../components/customer/Footer';
 
 
-const categories: Category[] = [
-  { id: 1, name: "Nasi" },
-  { id: 2, name: "Lauk Pauk" },
-  { id: 3, name: "Sayuran" },
-  { id: 4, name: "Minuman" },
-  { id: 5, name: "Sambal" }
-];
-
 function HomePage() {
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([])
-  const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
   const navigate = useNavigate()
   const menuSectionRef = useRef<HTMLDivElement>(null)
 
@@ -118,23 +107,14 @@ function HomePage() {
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredItems.map(item => (
+        {filteredItems.map(item => (
             <MenuCard key={item.id} item={item} />
           ))}
         </div>
         
         {filteredItems.length === 0 && (
           <div className="text-center py-8">
-            <p className="text-xl text-gray-500">Tidak ada menu yang sesuai dengan filter</p>
-            <button 
-              onClick={() => {
-                setSelectedCategory(null);
-                setSpicyFilter(null);
-              }}
-              className="mt-4 text-green-600 font-medium"
-            >
-              Reset Filter
-            </button>
+            <p className="text-xl text-gray-500">Tidak ada menu yang ditemukan</p>
           </div>
         )}
       </section>

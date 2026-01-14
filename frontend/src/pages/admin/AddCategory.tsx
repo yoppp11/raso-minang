@@ -73,7 +73,7 @@ export default function AddCategoryPage() {
     try {
       setLoading(true)
 
-      const response = await http({
+      await http({
         method: 'POST',
         url: '/categories',
         headers: {

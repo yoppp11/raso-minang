@@ -12,7 +12,7 @@ import OrdersTable from "./Orders"
 
 export default function AdminDashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [orders, setOrders] = useState<Order[]>([]) 
+  const [, setOrders] = useState<Order[]>([]) 
   const [menus, setMenus] = useState<MenuItem[]>([]) 
   const [todayOrders, setTodayOrders] = useState<Order[]>([]) 
   const [income, setIncome] = useState<number>(0)

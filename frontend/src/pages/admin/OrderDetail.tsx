@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router"
-import { ArrowLeft, MapPin, Phone, User, Calendar, CreditCard, FileText, Package } from "lucide-react"
+import { ArrowLeft, MapPin, Phone, User, Calendar, FileText, Package } from "lucide-react"
 import Swal from "sweetalert2"
 import { http } from "../../helpers/axios"
 import Card from "../../components/admin/Card"

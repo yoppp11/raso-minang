@@ -1,6 +1,5 @@
 import { ChefHat, Home, LogOut, ShoppingBag, X, Layers } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router"; 
-import React from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 
 export default function Sidebar({
   isOpen,

@@ -62,7 +62,7 @@ export default function OrderSummary({
             const transaction: PaymentResponse = response.data;
 
             window.snap.pay(transaction.token, {
-                onSuccess: async function(result){
+                onSuccess: async function(){
                     await http({
                         method: 'post',
                         url: `/orders/create`,

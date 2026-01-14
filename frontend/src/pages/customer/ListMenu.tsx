@@ -11,24 +11,7 @@ import ChatWidget from "../../components/customer/ChatWidget.tsx";
 import { http } from "../../helpers/axios.ts";
 import { Category, FilterOptions, MenuItem } from "../../types";
   
-  const sampleMenuItems: MenuItem[] = [
-    {
-      id: 1,
-      name: "Rendang Daging",
-      description: "Rendang daging sapi yang empuk dengan bumbu rempah khas Padang",
-      price: 25000,
-      image_url: "https://example.com/rendang.jpg",
-      category_id: 1,
-      Category: {
-        id: 1,
-        name: "Daging"
-      },
-      is_avaible: true,
-      is_spicy: true,
-    }
-  ];
-  
-  export default function ListMenu() {
+export default function ListMenu() {
     const [searchQuery, setSearchQuery] = useState("");
     const [categories, setCategories] = useState<Category[]>([]);
     const [menus, setMenus] = useState<MenuItem[]>([]);

@@ -2,7 +2,6 @@ import { AlertCircle, ArrowRight, Eye, EyeOff, Lock, Mail, Phone, User } from "l
 import { useState } from "react"
 import { Link, useNavigate } from "react-router"
 import FormInput from "../../components/customer/FormInput"
-import SocialLoginButton from "../../components/customer/SocialLoginButton"
 import { http } from "../../helpers/axios"
 import '../../App.css'
 import Swal from "sweetalert2"
@@ -17,7 +16,6 @@ export default function RegisterPage() {
         confirmPassword: ''
     })
     const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()

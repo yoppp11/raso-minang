@@ -55,7 +55,7 @@ export default function CartPage(){
             )
         )
 
-        const response = await http({
+        await http({
           method: 'patch',
           url: `/carts/${id}/inc`,
           headers: {
@@ -77,7 +77,7 @@ export default function CartPage(){
             )
         )
 
-        const response = await http({
+        await http({
           method: 'patch',
           url: `/carts/${id}/dec`,
           headers: {
@@ -105,7 +105,7 @@ export default function CartPage(){
 
         setCartItems(prevItems => prevItems.filter(item => item.id !== id))
 
-        const response = await http({
+        await http({
           method: 'delete',
           url: `/carts/${id}`,
           headers: {

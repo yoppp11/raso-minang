@@ -1,4 +1,4 @@
-import { Heart, Minus, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { MenuItem } from "../../types";
@@ -8,8 +8,7 @@ import { http } from "../../helpers/axios";
 import Swal from "sweetalert2";
 
 export default function MenuCard({ item }: { item: MenuItem }){
-    const [isLoading, setIsLoading] = useState(false)
-    const [isFavorite, setIsFavorite] = useState(false)
+    const [, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
     const handleClickAddCart = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -18,7 +17,7 @@ export default function MenuCard({ item }: { item: MenuItem }){
         try {
             setIsLoading(true)
 
-            const response = await http({
+            await http({
                 method: 'post',
                 url: '/carts',
                 data: {

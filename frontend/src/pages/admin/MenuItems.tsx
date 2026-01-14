@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Edit, Eye, Plus, Search, Trash2, Filter, MoreVertical } from "lucide-react"
+import { Edit, Eye, Plus, Search, Trash2 } from "lucide-react"
 import Swal from "sweetalert2"
 import { http } from "../../helpers/axios"
 import { MenuItem } from "../../types"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Edit, Eye, Filter, Search, Truck, Clock, CheckCircle, XCircle } from "lucide-react"
+import { Eye, Filter, Search, Truck, Clock, CheckCircle, XCircle } from "lucide-react"
 import Swal from "sweetalert2"
 import { http } from "../../helpers/axios"
 import { useNavigate } from "react-router"

@@ -18,13 +18,6 @@ interface AboutFeature {
   color: string;
 }
 
-interface AboutStat {
-  id: number;
-  number: string;
-  label: string;
-  description: string;
-}
-
 interface TeamMemberType {
   id: number;
   name: string;
@@ -64,33 +57,6 @@ const AboutUsPage = () => {
       description: "Memadukan tradisi kuliner klasik dengan inovasi modern untuk memenuhi selera masa kini.",
       icon: Utensils,
       color: "bg-green-100 text-green-600"
-    }
-  ];
-
-  const stats: AboutStat[] = [
-    {
-      id: 1,
-      number: "10+",
-      label: "Tahun Pengalaman",
-      description: "Melayani dengan dedikasi"
-    },
-    {
-      id: 2,
-      number: "50K+",
-      label: "Pelanggan Puas",
-      description: "Kepercayaan yang terus tumbuh"
-    },
-    {
-      id: 3,
-      number: "10+",
-      label: "Menu Spesial",
-      description: "Hidangan khas Minang"
-    },
-    {
-      id: 4,
-      number: "2",
-      label: "Cabang Restoran",
-      description: "Di berbagai kota"
     }
   ];
 

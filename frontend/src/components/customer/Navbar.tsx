@@ -1,4 +1,4 @@
-import { MenuIcon, Search, ShoppingBag, X, LogOut, User, MessageCircle } from "lucide-react";
+import { MenuIcon, ShoppingBag, X, LogOut, User, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 

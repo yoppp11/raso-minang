@@ -1,4 +1,4 @@
-import { ArrowLeft, Minus, Plus, Star, Heart, Clock, Users, ChefHat } from "lucide-react";
+import { ArrowLeft, Minus, Plus, Star, Clock, Users, ChefHat } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
@@ -13,9 +13,6 @@ export default function DetailPage() {
   const [menuItem, setMenuItem] = useState<MenuItem>({} as MenuItem);
   const [recommendedDishes, setRecommendedDishes] = useState<MenuItem[]>([]);
   const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [showNutrition, setShowNutrition] = useState(false);
-  const [showReviews, setShowReviews] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -35,7 +32,7 @@ export default function DetailPage() {
     try {
       setIsLoading(true);
 
-      const response = await http({
+      await http({
         method: 'post',
         url: '/carts',
         data: {

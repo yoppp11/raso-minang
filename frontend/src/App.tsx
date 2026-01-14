@@ -116,7 +116,7 @@ const categories: Category[] = [
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null)
-  const [filteredItems, setFilteredItems] = useState<MenuItem[]>(menuItems)
+  const [filteredItems] = useState<MenuItem[]>(menuItems)
   const [spicyFilter, setSpicyFilter] = useState<boolean | null>(null)
 
   useEffect(()=> {

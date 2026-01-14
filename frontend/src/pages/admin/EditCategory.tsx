@@ -74,7 +74,7 @@ export default function EditCategoryPage() {
     try {
       setLoading(true)
 
-      const response = await http({
+      await http({
         method: 'PATCH',
         url: '/categories/' + id,
         headers: {
