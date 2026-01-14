@@ -5,14 +5,14 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Copy package files
-COPY package.json ./
-COPY package-lock.json ./
+COPY backend/package.json ./
+COPY backend/package-lock.json ./
 
 # Install dependencies
 RUN npm ci --omit=dev
 
 # Copy source code
-COPY . .
+COPY backend/ .
 
 # Expose port
 EXPOSE 3000
