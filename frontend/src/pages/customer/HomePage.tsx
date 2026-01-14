@@ -44,25 +44,18 @@ function HomePage() {
   }
 
   useEffect(()=> {
+    // Check for access token first
+    if(!localStorage.getItem('access_token')) {
+      navigate('/login');
+      return;
+    }
+    
     fetchData()
 
     // let filtered = menuItems
 
     // if(selectedCategory !== null) filtered = filtered.filter(item => item.category_id === selectedCategory)
   }, [])
-
-  if(!localStorage.getItem('access_token')) {
-    // Swal.fire({
-    //   icon: 'warning',
-    //   title: 'Perhatian',
-    //   text: 'Anda harus masuk terlebih dahulu untuk mengakses halaman ini.',
-    //   confirmButtonText: 'Masuk',
-    //   preConfirm: () => {
-    //   }
-    // });
-    navigate('/login');
-    return null;
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
