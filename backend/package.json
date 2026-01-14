@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "sequelize-cli db:migrate --env production && node dist/main.js",
     "dev": "nodemon index.js",
     "test": "jest --coverage --forceExit --detectOpenHandles",
     "test:watch": "jest --watch"
