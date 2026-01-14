@@ -15,13 +15,12 @@
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
-    "username": "postgres",
-    "password": "postgres",
-    "database": "rasominang",
-    "host": "db",
     "dialect": "postgres",
     "dialectOptions": {
-      "ssl": false
+      "ssl": {
+        "require": true,
+        "requireUnauthorized": false
+      }
     }
   }
 }
