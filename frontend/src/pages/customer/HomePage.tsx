@@ -55,7 +55,7 @@ function HomePage() {
     // let filtered = menuItems
 
     // if(selectedCategory !== null) filtered = filtered.filter(item => item.category_id === selectedCategory)
-  }, [])
+  }, [navigate])
 
   return (
     <div className="min-h-screen bg-gray-50">
