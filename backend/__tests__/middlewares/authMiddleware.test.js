@@ -1,4 +1,4 @@
-const { authMiddleware, superAdminMiddleware } = require('../../middlewares/authMiddleware');
+const { authMiddleware, superAdminMiddleware, adminMiddleware } = require('../../middlewares/authMiddleware');
 const { signToken } = require('../../helpers/jwt');
 
 // Set up JWT_SECRET for testing
@@ -118,6 +118,93 @@ describe('Auth Middleware', () => {
 
     it('should call next with error for missing authorization', async () => {
       await superAdminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'Unauthorized' })
+      );
+    });
+  });
+
+  describe('adminMiddleware', () => {
+    it('should call next() for valid admin token', async () => {
+      const token = signToken({ email: 'admin@example.com' });
+      mockReq.headers.authorization = `Bearer ${token}`;
+      
+      User.findOne.mockResolvedValue({
+        id: 1,
+        email: 'admin@example.com',
+        full_name: 'Admin User',
+        role: 'admin'
+      });
+
+      await adminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalled();
+      expect(mockReq.user).toBeDefined();
+      expect(mockReq.user.role).toBe('admin');
+    });
+
+    it('should call next() for superadmin token (admin access)', async () => {
+      const token = signToken({ email: 'superadmin@example.com' });
+      mockReq.headers.authorization = `Bearer ${token}`;
+      
+      User.findOne.mockResolvedValue({
+        id: 1,
+        email: 'superadmin@example.com',
+        full_name: 'Super Admin',
+        role: 'superadmin'
+      });
+
+      await adminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalled();
+      expect(mockReq.user).toBeDefined();
+      expect(mockReq.user.role).toBe('superadmin');
+    });
+
+    it('should call next with Forbidden error for regular user', async () => {
+      const token = signToken({ email: 'user@example.com' });
+      mockReq.headers.authorization = `Bearer ${token}`;
+      
+      User.findOne.mockResolvedValue({
+        id: 1,
+        email: 'user@example.com',
+        full_name: 'Regular User',
+        role: 'user'
+      });
+
+      await adminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'Forbidden' })
+      );
+    });
+
+    it('should call next with error for missing authorization', async () => {
+      await adminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'Unauthorized' })
+      );
+    });
+
+    it('should call next with error for invalid token type', async () => {
+      mockReq.headers.authorization = 'Basic invalidtoken';
+
+      await adminMiddleware(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'Unauthorized' })
+      );
+    });
+
+    it('should call next with error for user not found', async () => {
+      const token = signToken({ email: 'notfound@example.com' });
+      mockReq.headers.authorization = `Bearer ${token}`;
+      
+      User.findOne.mockResolvedValue(null);
+
+      await adminMiddleware(mockReq, mockRes, mockNext);
 
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({ name: 'Unauthorized' })

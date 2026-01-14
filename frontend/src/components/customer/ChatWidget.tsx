@@ -113,24 +113,12 @@ export default function ChatWidget({ isLoggedIn }: ChatWidgetProps) {
     const handleSendMessage = async () => {
         if (!newMessage.trim() || !conversation) return
 
-        const token = localStorage.getItem('access_token')
         const messageContent = newMessage.trim()
         setNewMessage("")
 
         try {
-            // Send via socket for real-time
+            // Send via socket - backend will save to database
             socketService.sendMessage(conversation.id, messageContent)
-
-            // Also save via API as backup
-            await http({
-                method: 'post',
-                url: '/chat/messages',
-                headers: { 'Authorization': `Bearer ${token}` },
-                data: {
-                    conversationId: conversation.id,
-                    content: messageContent
-                }
-            })
         } catch (error) {
             console.error('Error sending message:', error)
         }

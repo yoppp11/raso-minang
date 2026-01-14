@@ -139,14 +139,6 @@ io.on('connection', (socket) => {
                     message: fullMessage
                 })
             }
-
-            // If message is from superadmin, notify the user
-            if (socket.user.role === 'superadmin') {
-                const conversation = await Conversation.findByPk(conversationId)
-                if (conversation) {
-                    io.to(`user_${conversation.user_id}`).emit('receive_message', fullMessage)
-                }
-            }
         } catch (error) {
             console.error('Error sending message:', error)
             socket.emit('error', { message: 'Failed to send message' })

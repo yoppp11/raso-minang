@@ -156,5 +156,69 @@ describe('CartController', () => {
         expect.objectContaining({ name: 'NotFound', message: 'Cart not found' })
       );
     });
+
+    it('should call next with error on database failure', async () => {
+      mockReq.params = { cartId: '1' };
+      const error = new Error('Database error');
+      Cart.findOne.mockRejectedValue(error);
+
+      await CartController.routeIncrementStock(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe('routeDecrementStock', () => {
+    it('should decrement cart item quantity', async () => {
+      mockReq.params = { cartId: '1' };
+      Cart.findOne.mockResolvedValue({ id: 1 });
+      Cart_Item.findOne.mockResolvedValue({ quantity: 5 });
+      Cart_Item.decrement.mockResolvedValue([1]);
+
+      await CartController.routeDecrementStock(mockReq, mockRes, mockNext);
+
+      expect(Cart_Item.decrement).toHaveBeenCalledWith('quantity', {
+        by: 1,
+        where: { cart_id: 1 }
+      });
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.send).toHaveBeenCalledWith({ message: 'Success decremented quantity' });
+    });
+
+    it('should remove item when quantity is 1', async () => {
+      mockReq.params = { cartId: '1' };
+      Cart.findOne.mockResolvedValue({ id: 1 });
+      Cart_Item.findOne.mockResolvedValue({ quantity: 1 });
+      Cart_Item.destroy.mockResolvedValue(1);
+
+      await CartController.routeDecrementStock(mockReq, mockRes, mockNext);
+
+      expect(Cart_Item.destroy).toHaveBeenCalledWith({
+        where: { cart_id: 1 }
+      });
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.send).toHaveBeenCalledWith({ message: 'Success removed item from cart' });
+    });
+
+    it('should throw NotFound when cart not found', async () => {
+      mockReq.params = { cartId: '999' };
+      Cart.findOne.mockResolvedValue(null);
+
+      await CartController.routeDecrementStock(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'NotFound', message: 'Cart not found' })
+      );
+    });
+
+    it('should call next with error on database failure', async () => {
+      mockReq.params = { cartId: '1' };
+      const error = new Error('Database error');
+      Cart.findOne.mockRejectedValue(error);
+
+      await CartController.routeDecrementStock(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(error);
+    });
   });
 });

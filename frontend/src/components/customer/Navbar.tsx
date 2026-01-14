@@ -1,4 +1,4 @@
-import { MenuIcon, Search, ShoppingBag, X, LogOut, User } from "lucide-react";
+import { MenuIcon, Search, ShoppingBag, X, LogOut, User, MessageCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 
@@ -59,6 +59,12 @@ export default function Navbar() {
                         <Link to='/my-order' className="text-gray-700 hover:text-green-600 font-medium transition-colors">
                             Pesanan Saya
                         </Link>
+                        {isLoggedIn && (
+                            <Link to='/chat' className="text-gray-700 hover:text-green-600 font-medium transition-colors flex items-center gap-1">
+                                <MessageCircle size={18} />
+                                Chat
+                            </Link>
+                        )}
                     </div>
 
                     <div className="flex items-center space-x-4">
@@ -170,6 +176,12 @@ export default function Navbar() {
                         {isLoggedIn && (
                             <Link to='/my-order' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>
                                 My Order
+                            </Link>
+                        )}
+                        {isLoggedIn && (
+                            <Link to='/chat' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors flex items-center gap-2" onClick={closeMenus}>
+                                <MessageCircle size={20} />
+                                Chat Admin
                             </Link>
                         )}
                         <Link to='/about-us' className="text-gray-700 hover:text-green-600 font-medium text-xl transition-colors" onClick={closeMenus}>

@@ -5,6 +5,7 @@ jest.mock('../../models', () => ({
   Menu_Item: {
     findAll: jest.fn(),
     findOne: jest.fn(),
+    findByPk: jest.fn(),
     create: jest.fn(),
     update: jest.fn(),
     destroy: jest.fn()
@@ -287,6 +288,147 @@ describe('MenuController', () => {
       expect(mockNext).toHaveBeenCalledWith(
         expect.objectContaining({ name: 'NotFound', message: 'Category Not Found' })
       );
+    });
+  });
+
+  describe('routeDeleteMenu', () => {
+    it('should delete menu successfully', async () => {
+      mockReq.params = { id: '1' };
+      Menu_Item.findByPk.mockResolvedValue({ id: 1, name: 'Test Menu' });
+      Menu_Item.destroy.mockResolvedValue(1);
+
+      await MenuController.routeDeleteMenu(mockReq, mockRes, mockNext);
+
+      expect(Menu_Item.destroy).toHaveBeenCalledWith({ where: { id: '1' } });
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.send).toHaveBeenCalledWith({
+        status: 'success',
+        message: 'Menu Deleted Successfully'
+      });
+    });
+
+    it('should throw NotFound when menu not found', async () => {
+      mockReq.params = { id: '999' };
+      Menu_Item.findByPk.mockResolvedValue(null);
+
+      await MenuController.routeDeleteMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'NotFound', message: 'Menu Not Found' })
+      );
+    });
+
+    it('should call next with error on database failure', async () => {
+      mockReq.params = { id: '1' };
+      const error = new Error('Database error');
+      Menu_Item.findByPk.mockRejectedValue(error);
+
+      await MenuController.routeDeleteMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(error);
+    });
+  });
+
+  describe('routeUpdateMenu', () => {
+    it('should throw BadRequest when name is missing', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { description: 'test', price: 10000, categoryId: 1, image: 'http://image.url' };
+      mockReq.file = null;
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'BadRequest', message: 'Name is required' })
+      );
+    });
+
+    it('should throw BadRequest when description is missing', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { name: 'test', price: 10000, categoryId: 1, image: 'http://image.url' };
+      mockReq.file = null;
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'BadRequest', message: 'Description is required' })
+      );
+    });
+
+    it('should throw BadRequest when price is missing', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { name: 'test', description: 'desc', categoryId: 1, image: 'http://image.url' };
+      mockReq.file = null;
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'BadRequest', message: 'Price is required' })
+      );
+    });
+
+    it('should throw BadRequest when categoryId is missing', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { name: 'test', description: 'desc', price: 10000, image: 'http://image.url' };
+      mockReq.file = null;
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'BadRequest', message: 'Category ID is required' })
+      );
+    });
+
+    it('should throw BadRequest when image is missing', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { name: 'test', description: 'desc', price: 10000, categoryId: 1 };
+      mockReq.file = null;
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'BadRequest', message: 'Image is required' })
+      );
+    });
+
+    it('should throw NotFound when menu not found', async () => {
+      mockReq.params = { id: '999' };
+      mockReq.body = { name: 'test', description: 'desc', price: 10000, categoryId: 1, image: 'http://image.url' };
+      Menu_Item.findByPk.mockResolvedValue(null);
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(mockNext).toHaveBeenCalledWith(
+        expect.objectContaining({ name: 'NotFound', message: 'Menu Not Found' })
+      );
+    });
+
+    it('should update menu with existing image url', async () => {
+      mockReq.params = { id: '1' };
+      mockReq.body = { 
+        name: 'Updated Menu', 
+        description: 'Updated description', 
+        price: 25000, 
+        categoryId: 1,
+        isAvailable: 'true',
+        isSpicy: 'false',
+        image: 'http://existing-image.url' 
+      };
+      mockReq.file = null;
+      Menu_Item.findByPk.mockResolvedValue({ id: 1, name: 'Old Menu' });
+      Menu_Item.update.mockResolvedValue([1]);
+
+      await MenuController.routeUpdateMenu(mockReq, mockRes, mockNext);
+
+      expect(Menu_Item.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'Updated Menu',
+          description: 'Updated description',
+          price: 25000,
+          category_id: 1
+        }),
+        { where: { id: '1' } }
+      );
+      expect(mockRes.status).toHaveBeenCalledWith(200);
     });
   });
 });

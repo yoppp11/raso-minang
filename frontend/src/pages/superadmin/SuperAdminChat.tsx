@@ -140,22 +140,12 @@ export default function SuperAdminChat() {
     const handleSendMessage = async () => {
         if (!newMessage.trim() || !selectedConversation) return
 
-        const token = localStorage.getItem('access_token')
         const messageContent = newMessage.trim()
         setNewMessage("")
 
         try {
+            // Send via socket - backend will save to database
             socketService.sendMessage(selectedConversation.id, messageContent)
-
-            await http({
-                method: 'post',
-                url: '/chat/messages',
-                headers: { 'Authorization': `Bearer ${token}` },
-                data: {
-                    conversationId: selectedConversation.id,
-                    content: messageContent
-                }
-            })
         } catch (error) {
             console.error('Error sending message:', error)
         }
