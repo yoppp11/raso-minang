@@ -5,10 +5,10 @@ import Swal from "sweetalert2";
 import { FilterPanel } from "../../components/customer/FilterPanel";
 import MenuCard from "../../components/customer/MenuCard";
 import { MenuStats } from "../../components/customer/MenuStats";
-import Navbar from "../../components/customer/Navbar.tsx";
-import { SearchInput } from "../../components/customer/SearchInput.tsx";
-import ChatWidget from "../../components/customer/ChatWidget.tsx";
-import { http } from "../../helpers/axios.ts";
+import Navbar from "../../components/customer/Navbar";
+import { SearchInput } from "../../components/customer/SearchInput";
+import ChatWidget from "../../components/customer/ChatWidget";
+import { http } from "../../helpers/axios";
 import { Category, FilterOptions, MenuItem } from "../../types";
   
 export default function ListMenu() {
@@ -89,7 +89,7 @@ export default function ListMenu() {
     }
   
     const filteredItems = useMemo(() => {
-      let filtered = menus.filter(item => {
+      const filtered = menus.filter(item => {
         const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                              item.description.toLowerCase().includes(searchQuery.toLowerCase());
         
@@ -123,7 +123,7 @@ export default function ListMenu() {
       });
   
       return filtered;
-    }, [searchQuery, filters]);
+    }, [searchQuery, filters, menus]);
 
     useEffect(()=> {
       getCategorires();
